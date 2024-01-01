@@ -1,20 +1,17 @@
 'use client'
 import React from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
 
 const ProductCard = ({_id,img,name,price,plant}) => { 
     const navigate = useRouter()
 
     const onClickHandler = ()=>{
+        console.log('adda')
       navigate.push(`/plant/${plant._id}`)
   }
 
   return (
-    <div className=' border-[3px] w-[330px] m-2  p-2 ' onClick={onClickHandler} >
-        <Link
-        href='#'>
+    <div className=' border-[3px] w-[330px] m-2  p-2 cursor-pointer ' onClick={onClickHandler} >
         <div>
             <img className='lg:w-[279px] h-[330px] m-auto '
             src={img}
@@ -26,8 +23,7 @@ const ProductCard = ({_id,img,name,price,plant}) => {
         </div>
         <div className='text-muted-foreground pl-3 '  >
             ${price}
-        </div>
-        </Link>
+        </div>     
     </div>
   )
 }

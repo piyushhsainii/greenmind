@@ -64,8 +64,8 @@ const logout = () => {
     const { theme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
 
-    const CART_ITEMS = JSON.parse(localStorage.getItem('cartItem'))
-    console.log(CART_ITEMS,"cart tiems")
+    // const CART_ITEMS = JSON.parse(localStorage.getItem('cartItem'))
+    // console.log(CART_ITEMS,"cart tiems")
     useEffect(()=>{
       if(token){
         setLoading(false)
@@ -76,7 +76,7 @@ const logout = () => {
       }
       setMounted(true)
       
-    },[userAuth ,toggle,theme , userLogin,token,CART_ITEMS ])
+    },[userAuth ,toggle,theme , userLogin,token ])
 
     if(!mounted){
       return null
@@ -92,7 +92,7 @@ const logout = () => {
                   <SheetHeader>
                     <SheetTitle className='flex text-center justify-center gap-3'><ShoppingCart size={25} />CART</SheetTitle>
                     <SheetDescription >
-                      {
+                      {/* {
                         CART_ITEMS?.map((item)=>(
                          <div className='flex gap-2 ' >
                            <div> <img className='h-[30px]' src={item.img} /> </div>
@@ -102,7 +102,7 @@ const logout = () => {
                            <div> {item.qty * item.price} </div>
                          </div>
                         ))
-                      }
+                      } */}
                     </SheetDescription>
                   </SheetHeader>
                 </SheetContent>

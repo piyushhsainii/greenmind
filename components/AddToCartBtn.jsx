@@ -1,10 +1,13 @@
 'use client'
 import { Minus, Plus } from 'lucide-react'
 import React, { Fragment, useEffect, useState } from 'react'
-
+// import { CartItem } from './atoms/userAuth'
+// import { useRecoilState } from 'recoil'
 
 const addToCartBtn = ({data}) => {
     const [counter, setcounter] = useState(1)
+//    const [ cartItem, setCartItem ]  = useRecoilState(CartItem)
+//    console.log(cartItem, "atom value")
     const cartItems = {
         id:data._id,
         name:data.name,
@@ -20,6 +23,7 @@ const addToCartBtn = ({data}) => {
         
     }
     const cartItemHandler = ()=>{
+        
         if(existingCartItems.length===0){
             existingCartItems.push(cartItems)
             localStorage.setItem("cartItem",JSON.stringify(existingCartItems))
