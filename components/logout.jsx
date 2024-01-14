@@ -30,7 +30,11 @@ import { useRouter } from 'next/navigation'
 import { CartItem } from './atoms/userAuth'
 import { ScrollArea } from './ui/scroll-area'
 import { loadStripe } from '@stripe/stripe-js'
+import { paymentSetup } from '@/components/payment/stripe'
 
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 const logout = () => {
   const navigate = useRouter()
   const {toast} = useToast()
@@ -39,17 +43,29 @@ const logout = () => {
   const [toggle, setToggle] = useRecoilState(ToggleMode) 
   const [ cartInfo , setCartInfo ] = useRecoilState(CartItem)
   
-  const proceedToOrder = () => {
-    userAuth ? (
+  const proceedToOrder = async(e) => {
+    e.preventDefault();
+    try {
+      console.log("1")
+      const session = await paymentSetup({
+        email:"email@gmail.com",
+        userId:"123",
+        stripePriceId:"1234",
+      });
+      console.log("2")
+      if (session) {
+        window.location.href = session.url ?? "/dashboard/billing";
+      }
+    } catch (err) {
+      console.error('error',err);
       toast({
-        description: 'Please Log In!',
-        variant:"custom"
-      }),
-      navigate.push('/userAuth')
-    ) : (
-      navigate.push('/orderDetails')
-    );
-  };
+         description: "Something went wrong, please try again later.",
+         variant:"custom"
+        
+        });
+    }
+    
+  }
   
 
   const SignOutHandler = async()=>{
