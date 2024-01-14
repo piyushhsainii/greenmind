@@ -6,7 +6,7 @@ const ProductCard = ({_id,img,name,price,plant}) => {
     const navigate = useRouter()
 
     const onClickHandler = ()=>{
-        console.log('adda')
+    //   console.log('adda')
       navigate.push(`/plant/${plant._id}`)
   }
 

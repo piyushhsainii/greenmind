@@ -8,8 +8,17 @@ import {
   } from "@/components/ui/carousel"
 import { MoveRight } from 'lucide-react'
 import Link from 'next/link'
+import axios from 'axios'
+import { NEXT_URL } from '../utils/url'
   
-const Section2 = () => {
+async function fetchRandomPlants (){
+  const { data } = await axios.get(`${NEXT_URL}/api/FetchFeaturedPlants`)
+  return data
+}
+
+
+const Section2 = async() => {
+  const  data  = await fetchRandomPlants()
   return (
     <Fragment>
         <div className='w-[85vw]  m-auto mb-5 flex-col  md:flex md:flex-row  '  >
@@ -34,21 +43,13 @@ const Section2 = () => {
                 <div className='lg:w-[85%] mt-4 ' >
                 <Carousel className='w-[60%] m-auto  ' >
                     <CarouselContent  >
-                        <CarouselItem className='basis-2/3 w-[200px]  ' >
-                            <img src="/pot1.png" className='w-[350px]  md:h-[279px] lg:h-[357px]  ' alt="" />
-                            <div className=' font-bold p-4 pb-2 ' >Natural Plants</div>
-                            <div className=' text-muted-foreground p-4 pt-0'> $100.00</div>
-                        </CarouselItem>
-                        <CarouselItem className='basis-2/3  ' >
-                            <img src="/Frame7.png" className='w-[350px]  md:h-[279px] lg:h-[357px]' alt="" />
-                            <div className=' font-bold p-4 pb-2 ' >Natural Plants</div>
-                            <div className=' text-muted-foreground p-4 pt-0'> $100.00</div>
+                        { data.product?.map((item)=>(
+                            <CarouselItem key={item._id} className='basis-2/3 w-[200px]  ' >
+                            <img src={item.Img} className='w-[350px]  md:h-[279px] lg:h-[357px]  ' alt="" />
+                            <div className=' font-bold p-4 pb-2 ' >{item.name}</div>
+                            <div className=' text-muted-foreground p-4 pt-0'> {item.price}</div>
                             </CarouselItem>
-                        <CarouselItem className='basis-2/3  ' >
-                            <img src="/pot1.png" className='w-[350px]  md:h-[279px] lg:h-[357px]' alt="" />
-                            <div className=' font-bold p-4 pb-2 ' >Natural Plants</div>
-                            <div className=' text-muted-foreground p-4 pt-0'> $100.00</div>              
-                            </CarouselItem>
+                        )) }                    
                     </CarouselContent>
                         <CarouselPrevious />
                         <CarouselNext />

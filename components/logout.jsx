@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { ToggleMode, userAuth } from './atoms/userAuth'
 import { getCookie } from 'cookies-next'
-import { CarTaxiFront, Menu, Moon, ShoppingCart, Sun, SunMedium, SunMoon } from 'lucide-react'
+import { CarTaxiFront, Menu, Moon, ShoppingCart, Sun, SunMedium, SunMoon, Trash2 } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,17 +25,32 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 import { useRouter } from 'next/navigation'
-
+import { CartItem } from './atoms/userAuth'
+import { ScrollArea } from './ui/scroll-area'
+import { loadStripe } from '@stripe/stripe-js'
 
 const logout = () => {
-
   const navigate = useRouter()
   const {toast} = useToast()
   const [ userLogin, setuserLogin ] = useRecoilState(userAuth)
   const [ loading, setLoading ] = useState(true)
   const [toggle, setToggle] = useRecoilState(ToggleMode) 
+  const [ cartInfo , setCartInfo ] = useRecoilState(CartItem)
+  
+  const proceedToOrder = () => {
+    userAuth ? (
+      toast({
+        description: 'Please Log In!',
+        variant:"custom"
+      }),
+      navigate.push('/userAuth')
+    ) : (
+      navigate.push('/orderDetails')
+    );
+  };
+  
 
   const SignOutHandler = async()=>{
        try {
@@ -58,14 +73,27 @@ const logout = () => {
        }
      }
   
-
     const token = getCookie('token')
-    
     const { theme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
+    let CART_ITEMS
+    let totalCartAmount
+    if (typeof window !== 'undefined') {
+      CART_ITEMS = localStorage.getItem('cartItem') ? JSON.parse(localStorage.getItem('cartItem')) : null   
+       totalCartAmount = CART_ITEMS?.reduce((counter,item)=>
+       counter + item.price * item.qty,0
+      )
+      console.log(totalCartAmount,"total")
+    }
 
-    // const CART_ITEMS = JSON.parse(localStorage.getItem('cartItem'))
-    // console.log(CART_ITEMS,"cart tiems")
+     const removeItemHandler = (id)=>{
+      console.log("control is reaching here")
+      const filteredArray =  CART_ITEMS.filter((item)=>item.id !== id)
+      localStorage.setItem('cartItem',JSON.stringify(filteredArray))
+      setCartInfo(filteredArray)
+    }
+
+    
     useEffect(()=>{
       if(token){
         setLoading(false)
@@ -75,8 +103,7 @@ const logout = () => {
         setuserLogin(false)
       }
       setMounted(true)
-      
-    },[userAuth ,toggle,theme , userLogin,token ])
+    },[userAuth ,toggle,theme , userLogin,token,CartItem ])
 
     if(!mounted){
       return null
@@ -86,25 +113,55 @@ const logout = () => {
       <div className='sm:flex gap-7 p-3 md:mr-5 '>
             <div className='sm:flex sm:gap-7 pt-4  hidden ' >
                <div>
-               <Sheet>     
+               <Sheet >     
                 <SheetTrigger><ShoppingCart strokeWidth={1}  /></SheetTrigger>
-                <SheetContent>
+                    <SheetContent className='w-[500px] sm:max-w-none ' >
+               <ScrollArea className="h-[85vh]  rounded-md  p-4 border border-solid border-[rgba(0, 0, 0, 0.5)]">
                   <SheetHeader>
                     <SheetTitle className='flex text-center justify-center gap-3'><ShoppingCart size={25} />CART</SheetTitle>
                     <SheetDescription >
-                      {/* {
+                      {
                         CART_ITEMS?.map((item)=>(
-                         <div className='flex gap-2 ' >
-                           <div> <img className='h-[30px]' src={item.img} /> </div>
-                           <div> {item.name} </div>
-                           <div> {item.price} </div>
-                           <div> {item.qty} </div>
-                           <div> {item.qty * item.price} </div>
+                         <div className='flex gap-2 my-4 border-4 justify-evenly ' >
+                           <div className='w-[60px] h-[65px] '> <img className='w-[60px] h-[65px] ' src={item.img} /> </div>
+                           <div className='pt-5' > {item.name} </div>
+                           <div className='pt-5' >  ₹{item.price} </div> 
+                           <div className='pt-5' > X </div> 
+                           <div className='pt-5' > {item.qty} </div>
+                           <div className='pt-5' > = </div>
+                           <div className='pt-5' >  ₹{item.qty * item.price} </div>
+                           <div className='pt-5 cursor-pointer ' onClick={()=>removeItemHandler(item.id)} >  <Trash2 size={24} color="#f22121" strokeWidth={1.25} /> </div>
                          </div>
                         ))
-                      } */}
+                      }
+
+                        <div className='flex justify-evenly font-bold '  >
+                        {
+                          CART_ITEMS.length === 0  ?
+                          (
+                            <div className='text-2xl mt-5 ' >
+                              Your Cart Is Empty!
+                            </div>
+                          ) : (
+                          <>
+                            <div> Total Products : {CART_ITEMS?.length} </div>
+                            <div>SUBTOTAL </div>
+                            <div>  ₹{totalCartAmount}  </div>
+                          </>
+                          )
+                        }
+                        </div>
+                        {
+                          CART_ITEMS.length === 0  ?
+                          null : 
+                          (
+                        <div className='flex justify-center mt-6 ' >
+                          <button className='bg-primary px-8 py-4 text-black' onClick={proceedToOrder} > PROCEED TO CHECKOUT</button>
+                        </div>)
+                        }
                     </SheetDescription>
                   </SheetHeader>
+                    </ScrollArea>
                 </SheetContent>
             </Sheet>
               </div>

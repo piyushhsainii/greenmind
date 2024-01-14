@@ -4,7 +4,6 @@ import Section2 from '@/components/section2'
 
 
 const home = () => {
-
   return (
         <Fragment>
             <Section1/>

@@ -12,5 +12,5 @@ export const ToggleMode = atom({
 
 export const CartItem = atom({
     key:'CartItem',
-    value:[]
+    default:[]
 })

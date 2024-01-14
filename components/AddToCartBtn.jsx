@@ -1,13 +1,13 @@
 'use client'
 import { Minus, Plus } from 'lucide-react'
 import React, { Fragment, useEffect, useState } from 'react'
-// import { CartItem } from './atoms/userAuth'
-// import { useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
+import { CartItem } from './atoms/userAuth'
+import { toast } from './ui/use-toast'
 
 const addToCartBtn = ({data}) => {
     const [counter, setcounter] = useState(1)
-//    const [ cartItem, setCartItem ]  = useRecoilState(CartItem)
-//    console.log(cartItem, "atom value")
+    const [ cartInfo , setCartInfo ] = useRecoilState(CartItem)
     const cartItems = {
         id:data._id,
         name:data.name,
@@ -23,17 +23,25 @@ const addToCartBtn = ({data}) => {
         
     }
     const cartItemHandler = ()=>{
-        
         if(existingCartItems.length===0){
+            toast({
+                className:"bg-primary text-black ",
+                description:"Added to Cart"
+            })
             existingCartItems.push(cartItems)
             localStorage.setItem("cartItem",JSON.stringify(existingCartItems))
+            setCartInfo(existingCartItems)
         } else {
             const cartCheck = existingCartItems.filter((item)=>item.id!==cartItems.id)
             cartCheck.push(cartItems)
             localStorage.setItem("cartItem",JSON.stringify(cartCheck))
+            toast({
+                className:"bg-primary text-black  ",
+                description:"Added to Cart"
+            })
+            setCartInfo(cartCheck)
         }   
     }
-    console.log(data)
         useEffect(()=>{
 
         },[cartItemHandler])
