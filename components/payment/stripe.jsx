@@ -6,6 +6,7 @@ export const paymentSetup = async ({
   stripePriceId,
   email,
   userId,
+  Amt
 }) => {
 
 
@@ -20,7 +21,7 @@ export const paymentSetup = async ({
       {
           price_data:{
               currency:"inr",
-              unit_amount:20.00,
+              unit_amount:Amt,
               product_data:{
                   name:"MyStore"
               }

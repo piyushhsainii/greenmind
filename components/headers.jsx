@@ -20,12 +20,8 @@ const headers = () => {
     <div className={`flex justify-between border-2 overflow-hidden  top-0 relative `} >
         <div className='pl-5 pt-4 my-4 flex gap-4 sm:gap-10 md:gap-16 md:ml-7 ' >
           <div>
-           <Link className='text-xl ' href={'#'} onClick={()=>{
-            console.log('ok')
-            toast({ 
-              description: "Successfully signed in!",
-              variant:"custom"
-            })
+           <Link className='text-xl ' href={'/'} onClick={()=>{
+ 
            }} >
             <img
             className='lg:ml-12 md:min-w-[125px] md:min-h-[22px] sm:min-w-[100px] sm:min-h-[23px]  min-w-[90px] min-h-[18px]'

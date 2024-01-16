@@ -77,6 +77,7 @@ import Loading from "@/app/loading"
             navigate.push('/')
             toast({          
               description: "Account created successfully!",
+              variant:"custom"
             })
           }
         } catch (error) {
@@ -92,7 +93,7 @@ import Loading from "@/app/loading"
     const [Password, setPassword] = useState('')
     
       useEffect(()=>{
-       
+        userAuth===false ? navigate.push('/userAuth') : null
       },[userLogin,token])
   return (
 
@@ -168,8 +169,7 @@ import Loading from "@/app/loading"
               type={'submit'}
               onClick={signupapi}
               variant="secondary"
-              className="text-white-foreground bg-primary hover:bg-green-400  "
-              
+              className="text-white-foreground bg-primary hover:bg-green-400  "             
               >
               Sign up</Button>
           </CardFooter>

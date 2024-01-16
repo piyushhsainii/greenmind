@@ -44,27 +44,7 @@ const logout = () => {
   const [ cartInfo , setCartInfo ] = useRecoilState(CartItem)
   
   const proceedToOrder = async(e) => {
-    e.preventDefault();
-    try {
-      console.log("1")
-      const session = await paymentSetup({
-        email:"email@gmail.com",
-        userId:"123",
-        stripePriceId:"1234",
-      });
-      console.log("2")
-      if (session) {
-        window.location.href = session.url ?? "/dashboard/billing";
-      }
-    } catch (err) {
-      console.error('error',err);
-      toast({
-         description: "Something went wrong, please try again later.",
-         variant:"custom"
-        
-        });
-    }
-    
+    navigate.push('/shippingDetails')
   }
   
 

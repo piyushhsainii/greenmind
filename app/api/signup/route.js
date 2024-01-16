@@ -1,6 +1,7 @@
 import  userModel  from '../../../Models/userModels';
 import connectingDB from '../../../database/database';
 import bcrypt from 'bcrypt';
+import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { z} from 'zod'
 const jwt = require('jsonwebtoken')
@@ -56,9 +57,12 @@ export async function POST(request) {
       email,
       password: HashedPassword,
     });
-    const jwt_token = jwt.sign({id:user._id}, process.env.SECRET_KEY, {
-      expiresIn:process.env.JWT_EXPIRE
-    })
+    const jwt_token = await new SignJWT({id:user.id})
+    .setProtectedHeader({alg:'HS256'})
+    .setJti(nanoid())
+    .setIssuedAt()
+    .setExpirationTime('1m') 
+    .sign(new TextEncoder().encode(process.env.SECRET_KEY))
     cookies().set('token', jwt_token ,{ secure:true })
     return Response.json({
       success: true,
