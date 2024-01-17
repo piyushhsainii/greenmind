@@ -20,7 +20,7 @@ import {
   import axios from "axios"
   import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
-import { userAuth } from "./atoms/userAuth"
+import { UserEmail, UserName, userAuth } from "./atoms/userAuth"
 import { useToast } from "@/components/ui/use-toast"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
@@ -30,9 +30,9 @@ import Loading from "@/app/loading"
     const url = 'http://localhost:3000'
     const [ userLogin, setUserLogin ] = useRecoilState(userAuth)
     const { toast } = useToast() 
-    const token = getCookie('token')
     const navigate = useRouter()
-    
+    const [ userEmail, setUserEmail ]=useRecoilState(UserEmail)
+
     const loginapi = async ()=>{
         try {
           const { data  } = await axios.post(`${url}/api/signin`,
@@ -46,7 +46,7 @@ import Loading from "@/app/loading"
             toast({ 
               description: "Successfully signed in!",
               variant:"custom"
-            })
+            })          
             navigate.push('/')
           } 
         } catch (error) {
@@ -93,8 +93,7 @@ import Loading from "@/app/loading"
     const [Password, setPassword] = useState('')
     
       useEffect(()=>{
-        userAuth===false ? navigate.push('/userAuth') : null
-      },[userLogin,token])
+      },[userLogin])
   return (
 
     <Tabs defaultValue="account" className="w-[400px] p-4 border-solid border-primary rounded-md border-2  text-primary  ">

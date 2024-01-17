@@ -1,21 +1,30 @@
 'use client'
+import { UserEmail } from '@/components/atoms/userAuth';
 import { paymentSetup } from '@/components/payment/stripe';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import React, { Fragment, useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil';
 
 const shippingDetails = () => {
+  const userEmail =  useRecoilValue(UserEmail)
   let totalPrice
   let newPrice
+  let Quantity
+  let jsonString
+  console.log( userEmail, "lol")
+  console.log(userEmail,'jsad')
   const proceedToPayment = async(e)=>{
     e.preventDefault();
     try {
       const session = await paymentSetup({
-        email:"email@gmail.com",
+        email:'userEmail@gmail.com',
         userId:"123",
         stripePriceId:"1234",
-        Amt:newPrice
+        Amt:newPrice*100,
+        qty:Quantity,
+        product:totalPrice
       });
       if (session) {
         window.location.href = session.url ?? "/dashboard/billing";
@@ -31,7 +40,23 @@ const shippingDetails = () => {
   if(typeof window!=='undefined'){
   totalPrice = JSON.parse(localStorage.getItem('cartItem'))
   console.log(totalPrice)
-   newPrice = totalPrice.reduce((acc,item)=>acc+item.price * item.qty,0)
+  // newPrice = totalPrice.reduce((acc,item)=>acc+item.price,0)
+  const result = totalPrice.map((item) => (
+    {
+      price_data: {
+        currency: "inr",
+        unit_amount: item.price,
+        product_data: {
+          name: 'GreenMind'
+        }
+      },
+      quantity: item.qty
+    }
+  ));
+  
+   jsonString = JSON.stringify(result).slice(1, -1);
+  // console.log(jsonString,'check kar');
+  //  Quantity = totalPrice.reduce((acc,item)=>acc + item.qty,0)
   }
   return (
     <Fragment>

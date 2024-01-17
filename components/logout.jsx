@@ -152,7 +152,7 @@ const logout = () => {
                           null : 
                           (
                         <div className='flex justify-center mt-6 ' >
-                          <button className='bg-primary px-8 py-4 text-black' onClick={proceedToOrder} > PROCEED TO CHECKOUT</button>
+                          <Link href={'/shippingDetails'}> <button className='bg-primary px-8 py-4 text-black' > PROCEED TO CHECKOUT</button></Link> 
                         </div>)
                         }
                     </SheetDescription>
