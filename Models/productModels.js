@@ -6,13 +6,34 @@ const ProductSchema = new mongoose.Schema({
     price:{type:Number,required:true},
     Img:{type:String,required:true},
     rating:{type:Number, default:0},
-    numofReviews:{type:String,require:true},
+    numofReviews:{type:Number,default:0},
     category:{type:String,required:true},
     stock:{type:String,required:true},
-    reviews:{
+    reviews:[
+        {
+            user:{
+                type:mongoose.Schema.ObjectId,
+                ref:"user",
+                required:true
+            },
+            name:{
+                type:String,
+                required:true
+            },
+            comment:{
+                type:String,
+                required:true
+            },
+            rating:{
+                type:String,
+                required:true
+            },
+        }
+    ],
+    user:{
         type:mongoose.Schema.ObjectId,
         ref:"user",
-        required:true,
+        required:true
     },
     created_at:{type:Date, default: Date.now()}
 })

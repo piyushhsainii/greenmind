@@ -1,12 +1,11 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+import { Rating } from 'react-simple-star-rating'
 const ProductCard = ({_id,img,name,price,plant}) => { 
     const navigate = useRouter()
-
+    const [rating, setRating] = useState(2.7)
     const onClickHandler = ()=>{
-    //   console.log('adda')
       navigate.push(`/plant/${plant._id}`)
   }
 
@@ -20,6 +19,9 @@ const ProductCard = ({_id,img,name,price,plant}) => {
         </div>
         <div className='font-bold p-3 pt-4 ' >
             {name}
+        </div>
+        <div className='flex flex-col h-auto pl-3 pb-2 ' >
+        <Rating SVGclassName={'inline-block'} size={20} allowFraction={true} readonly={true} initialValue={rating} />
         </div>
         <div className='text-muted-foreground pl-3 '  >
             ${price}

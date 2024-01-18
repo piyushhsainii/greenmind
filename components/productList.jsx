@@ -7,13 +7,14 @@ async function getData(params,category,price) {
   try {
      const { data } = await axios.get(`http://localhost:3000/api/allProducts?page=${params ?? "1"} ${category ? `&category=${category}` : "" } ${price ? `&price=${price}` : ""} `);
      const { data:data2 } = await axios.get(`http://localhost:3000/api/adminallProducts`);
+
      if(data.success==='false'){
       throw new Error('failed to fetch data')
      }
      return {data,data2}
    } catch (error) {
      console.log('failed to fetch data',error)
-   }
+   } 
     
  } 
  

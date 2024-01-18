@@ -9,10 +9,8 @@ import { useRecoilValue } from 'recoil';
 
 const shippingDetails = () => {
   const userEmail =  useRecoilValue(UserEmail)
+  let cartData
   let totalPrice
-  let newPrice
-  let Quantity
-  let jsonString
   console.log( userEmail, "lol")
   console.log(userEmail,'jsad')
   const proceedToPayment = async(e)=>{
@@ -22,12 +20,10 @@ const shippingDetails = () => {
         email:'userEmail@gmail.com',
         userId:"123",
         stripePriceId:"1234",
-        Amt:newPrice*100,
-        qty:Quantity,
-        product:totalPrice
+        product:`${cartData}00`
       });
-      if (session) {
-        window.location.href = session.url ?? "/dashboard/billing";
+      if (session ) {
+        window.location.href = session.url ?? "/";
       }
     } catch (err) {
       console.error('error',err);
@@ -38,25 +34,12 @@ const shippingDetails = () => {
     }
   }
   if(typeof window!=='undefined'){
-  totalPrice = JSON.parse(localStorage.getItem('cartItem'))
-  console.log(totalPrice)
-  // newPrice = totalPrice.reduce((acc,item)=>acc+item.price,0)
-  const result = totalPrice.map((item) => (
-    {
-      price_data: {
-        currency: "inr",
-        unit_amount: item.price,
-        product_data: {
-          name: 'GreenMind'
-        }
-      },
-      quantity: item.qty
-    }
-  ));
-  
-   jsonString = JSON.stringify(result).slice(1, -1);
-  // console.log(jsonString,'check kar');
-  //  Quantity = totalPrice.reduce((acc,item)=>acc + item.qty,0)
+    cartData = Math.floor( JSON.parse(sessionStorage.getItem('OrderTotal')))
+    console.log(cartData)
+  // cartData = JSON.parse(localStorage.getItem('cartItem'))
+  // console.log(cartData)
+  // totalPrice = cartData.reduce((acc,item)=>acc+item.price*item.qty,0)
+  // console.log(`${totalPrice}00`)
   }
   return (
     <Fragment>

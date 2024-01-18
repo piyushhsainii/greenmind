@@ -15,8 +15,8 @@ export const CartItem = atom({
     default:[]
 })
 
-export const UserName = atom({
-    key:'UserName',
+export const UserID = atom({
+    key:'UserID',
     default:''
 })
 export const UserEmail = atom({

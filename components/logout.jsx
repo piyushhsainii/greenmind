@@ -64,7 +64,7 @@ const logout = () => {
         setuserLogin(true)
          toast({
           variant: "destructive",
-          description: `${error.response.data.message}`,
+          description: `${error.response?.data?.message || "An error occurred during logout."}`,
         })
        }
      }
@@ -74,21 +74,26 @@ const logout = () => {
     const [mounted, setMounted] = useState(false)
     let CART_ITEMS
     let totalCartAmount
+    let grosstotalAmount
+    let tax
     if (typeof window !== 'undefined') {
       CART_ITEMS = localStorage.getItem('cartItem') ? JSON.parse(localStorage.getItem('cartItem')) : null   
        totalCartAmount = CART_ITEMS?.reduce((counter,item)=>
        counter + item.price * item.qty,0
       )
-      console.log(totalCartAmount,"total")
+      // console.log(totalCartAmount,"total")
     }
-
+    tax = totalCartAmount*10/100
+    {totalCartAmount < 999 ? grosstotalAmount = totalCartAmount + 199  + tax :grosstotalAmount = totalCartAmount + tax}
      const removeItemHandler = (id)=>{
       console.log("control is reaching here")
       const filteredArray =  CART_ITEMS.filter((item)=>item.id !== id)
       localStorage.setItem('cartItem',JSON.stringify(filteredArray))
       setCartInfo(filteredArray)
     }
-
+     sessionStorage.setItem('OrdersubTotal',totalCartAmount)
+     sessionStorage.setItem('OrderTotal',grosstotalAmount)
+     sessionStorage.setItem('OrderTax',tax)
     
     useEffect(()=>{
       if(token){
@@ -131,24 +136,44 @@ const logout = () => {
                         ))
                       }
 
-                        <div className='flex justify-evenly font-bold '  >
+                        <div className='flex w-[100%] font-bold '  >
                         {
-                          CART_ITEMS.length === 0  ?
+                          CART_ITEMS?.length === 0  ?
                           (
                             <div className='text-2xl mt-5 ' >
                               Your Cart Is Empty!
                             </div>
                           ) : (
-                          <>
-                            <div> Total Products : {CART_ITEMS?.length} </div>
+                          <div className=' w-[100%]' >
+                              <div> Total Products : {CART_ITEMS?.length} </div> 
+                            <div className='flex justify-between gap-5 '  >
                             <div>SUBTOTAL </div>
-                            <div>  ₹{totalCartAmount}  </div>
-                          </>
+                              <div className='text-black' >  <b>₹{totalCartAmount}</b>  </div>
+                            </div>
+                            <div>
+                                  <div className='flex justify-between gap-5 ' >
+                                    <div>
+                                      Shipping Charges
+                                    </div>
+                                    <div className='text-black' >
+                                      {totalCartAmount > 999 ? "Free" :' ₹199'}
+                                    </div>
+                                  </div>                              
+                             </div>
+                             <div className='flex justify-between gap-5 '  >
+                            <div>Tax </div>
+                              <div className='text-black' >  <b>₹{tax}</b>  </div>
+                            </div>
+                             <div className='flex justify-between gap-5 '  >
+                            <div>SUBTOTAL </div>
+                              <div className='text-black' >  <b>₹{grosstotalAmount}</b>  </div>
+                            </div>
+                          </div>
                           )
                         }
                         </div>
                         {
-                          CART_ITEMS.length === 0  ?
+                          CART_ITEMS?.length === 0  ?
                           null : 
                           (
                         <div className='flex justify-center mt-6 ' >

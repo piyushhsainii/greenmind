@@ -6,8 +6,6 @@ export const paymentSetup = async ({
   stripePriceId,
   email,
   userId,
-  Amt,
-  qty,
   product
 }) => {
   console.log(product, 'stripe ka hu')
@@ -19,24 +17,21 @@ export const paymentSetup = async ({
     billing_address_collection: "auto",
     customer_email: email,
     line_items:[
-      JSON.stringify(product.map((item)=>( 
         {
             price_data:{
                 currency:"inr",
-                unit_amount:item.price,
+                unit_amount:product,
                 product_data:{
                     name:"GreenMind"
                 }
             },
-            quantity:item.qty
+            quantity:1
         }
-        )))
       ],
       metadata: {
         userId: userId,
       },
     });
-
-  return { url: stripeSession.url };
+  return { url: stripeSession.url  };
 
 }
