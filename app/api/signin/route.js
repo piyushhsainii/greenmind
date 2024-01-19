@@ -4,6 +4,8 @@ import User from '@/Models/userModels';
 import connectingDB from '@/database/database';
 import crypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { SignJWT } from 'jose';
+import { nanoid } from 'nanoid';
 
 const schema = z.object({
    email: z.string().email(),
@@ -56,9 +58,14 @@ export  async function POST(req) {
                status:400
             })
          }
-         const jwt_token = jwt.sign({id:userExist._id}, process.env.SECRET_KEY,{
-            expiresIn:process.env.JWT_EXPIRE
-         })
+         const jwt_token = await new SignJWT({id:user.id})
+            .setProtectedHeader({alg:'HS256'})
+            .setJti(nanoid())
+            .setIssuedAt()
+            .setExpirationTime('1w') 
+            .sign(new TextEncoder().encode(process.env.SECRET_KEY))
+            cookies().set('token', jwt_token ,{ secure:true })
+
          cookies().set('token',jwt_token,{ secure:true })
          return Response.json(
             {

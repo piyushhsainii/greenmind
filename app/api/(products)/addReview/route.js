@@ -4,7 +4,7 @@ export async function POST(req){
     try {
     const { id , reviews } = await req.json()
     let avg
-    const product = await productModels.findById(id)
+    const product = await productModels.findById(id).populate('user','email _id admin')
     product.reviews.push(
         {
             user: reviews.user,
@@ -20,7 +20,7 @@ export async function POST(req){
     return Response.json({
         success:true,
         product
-    },
+    }, 
     {
         status:200
     })

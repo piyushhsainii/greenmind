@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import userModels from "./userModels";
 
 const ProductSchema = new mongoose.Schema({ 
     name:{type:String,required:true},
@@ -12,10 +13,10 @@ const ProductSchema = new mongoose.Schema({
     reviews:[
         {
             user:{
-                type:mongoose.Schema.ObjectId,
-                ref:"user",
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'user',
                 required:true
-            },
+            }, 
             name:{
                 type:String,
                 required:true
@@ -31,8 +32,8 @@ const ProductSchema = new mongoose.Schema({
         }
     ],
     user:{
-        type:mongoose.Schema.ObjectId,
-        ref:"user",
+        type:mongoose.Schema.Types.ObjectId,
+        ref: userModels,
         required:true
     },
     created_at:{type:Date, default: Date.now()}

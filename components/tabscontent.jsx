@@ -27,7 +27,6 @@ import { useRouter } from "next/navigation"
 import Loading from "@/app/loading"
 
   export  function TabsTable() {   
-    const url = 'http://localhost:3000'
     const [ userLogin, setUserLogin ] = useRecoilState(userAuth)
     const { toast } = useToast() 
     const navigate = useRouter()
@@ -35,7 +34,7 @@ import Loading from "@/app/loading"
 
     const loginapi = async ()=>{
         try {
-          const { data  } = await axios.post(`${url}/api/signin`,
+          const { data  } = await axios.post(`http://localhost:3000/api/signin`,
             {email:Email,password:Password}
             )
             if(!data){
@@ -59,8 +58,8 @@ import Loading from "@/app/loading"
       }
     const signupapi = async ()=>{
         try {
-          const { data  } = await axios.post(`${url}/api/signup`,
-            {email:Email,password:Password}
+          const { data  } = await axios.post(`http://localhost:3000/api/signup`,
+            {name:Name,email:Email,password:Password}
           )
           if(!data){
             <Loading/>
@@ -89,6 +88,7 @@ import Loading from "@/app/loading"
         }
     
       }  
+    const [Name, setName] = useState('')
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     
@@ -107,7 +107,7 @@ import Loading from "@/app/loading"
           <CardHeader>
             <CardTitle>Sign In </CardTitle>  
           </CardHeader>
-          <CardContent className="space-y-2 ">
+          <CardContent className="space-y-2 ">          
             <div className="space-y-1">
               <Label htmlFor="name">Email</Label>
               <Input id="name"
@@ -144,6 +144,15 @@ import Loading from "@/app/loading"
             <CardTitle>Sign Up</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
+          <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
+              <Input id="name"
+               value={Name}
+               required={true} placeholder='Enter name'
+               onChange={(e)=>setName(e.target.value)}
+               />
+               
+            </div>
             <div className="space-y-1">
               <Label htmlFor="Enter email"> Email</Label>
               <Input id="current"

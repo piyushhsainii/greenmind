@@ -8,13 +8,14 @@ const jwt = require('jsonwebtoken')
 export async function POST(request) {
 
   const schema = z.object({
+    name:z.string(),
     email: z.string().email(),
     password:z.string().min(6)
   })
 
   await connectingDB();
   try {
-    const { email, password } = await request.json();
+    const {name, email, password } = await request.json();
     if (email==='' || password==='') {
       return  Response.json({
         success: false,
@@ -39,7 +40,7 @@ export async function POST(request) {
     const HashedPassword = await bcrypt.hash(password, 10);
 
     const data = {
-      email,password
+     name, email,password
     }
     //checking if data is correct
     const userv2 = schema.safeParse(data)
@@ -54,16 +55,20 @@ export async function POST(request) {
      ) 
     }
     const user = await userModel.create({
+      name,
       email,
       password: HashedPassword,
     });
+    console.log("code yaha tak sahi h?")
     const jwt_token = await new SignJWT({id:user.id})
     .setProtectedHeader({alg:'HS256'})
     .setJti(nanoid())
     .setIssuedAt()
-    .setExpirationTime('1m') 
+    .setExpirationTime('1w') 
     .sign(new TextEncoder().encode(process.env.SECRET_KEY))
     cookies().set('token', jwt_token ,{ secure:true })
+    console.log("code yaha tak sahi h2?")
+
     return Response.json({
       success: true,
       user,
