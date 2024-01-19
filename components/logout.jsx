@@ -86,14 +86,13 @@ const logout = () => {
     tax = totalCartAmount*10/100
     {totalCartAmount < 999 ? grosstotalAmount = totalCartAmount + 199  + tax :grosstotalAmount = totalCartAmount + tax}
      const removeItemHandler = (id)=>{
-      console.log("control is reaching here")
       const filteredArray =  CART_ITEMS.filter((item)=>item.id !== id)
       localStorage.setItem('cartItem',JSON.stringify(filteredArray))
       setCartInfo(filteredArray)
     }
-     sessionStorage.setItem('OrdersubTotal',totalCartAmount)
-     sessionStorage.setItem('OrderTotal',grosstotalAmount)
-     sessionStorage.setItem('OrderTax',tax)
+      sessionStorage?.setItem('OrdersubTotal',totalCartAmount)
+      sessionStorage?.setItem('OrderTotal',grosstotalAmount)
+      sessionStorage?.setItem('OrderTax',tax)
     
     useEffect(()=>{
       if(token){

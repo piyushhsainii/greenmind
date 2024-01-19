@@ -19,8 +19,12 @@ import {
     CarouselNext,
     CarouselPrevious,
   } from "@/components/ui/carousel"
+import { Rating } from 'react-simple-star-rating'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
   
-const addToCartBtn = ({data}) => {
+const addToCartBtn = ({data,productID}) => {
+    const navigate = useRouter()
     const [counter, setcounter] = useState(1)
     const [ cartInfo , setCartInfo ] = useRecoilState(CartItem)
     const cartItems = {
@@ -57,24 +61,44 @@ const addToCartBtn = ({data}) => {
             setCartInfo(cartCheck)
         }   
     }
-    const productID = data._id
-    const [name, setname] = useState('')
-    const [Comment ,setComment] = useState('')
-    const [ratings, setratings] = useState('')
+    const [name, setname] = useState('name')
+    const [comment ,setComment] = useState('')
+    const [rating, setratings] = useState(0)
     const productReviews = {
         name,
-        Comment,
-        ratings
+        comment,
+        rating,
+        user:'658c428f342fcc4638cf8915'
     }
+    const handleRating = (rate) => {
+        setratings(rate)
+      }
     const reviewHandler= async()=>{
+        if(comment.length>256){
+            return toast({
+                description:"Word Limit exceeded, please write review in less than 256 characters",
+                varirant:"destructive"
+            })
+        }
         const { data:data3} = await axios.post('/api/addReview',{
-            productID ,productReviews
+            id:productID ,reviews:productReviews
         })
-        console.log(data3,'this is fromr eview handler')
+        data3.success ===true? 
+        (toast({
+            description:"Review Added Successfully",
+            variant:"custom"
+        }),
+       window.location.href=`/plant/${productID}`) : 
+       (
+        toast({
+            description:"Failed to Add Review",
+            variant:"destructive"
+        })
+       )
     }
         useEffect(()=>{
 
-        },[cartItemHandler])
+        },[cartItemHandler,reviewHandler])
   return (
     <Fragment>
     <div className='flex flex-col gap-12 ' style={{userSelect:"none"}}   >
@@ -107,7 +131,10 @@ const addToCartBtn = ({data}) => {
                 {/* limit chars to 311 */}
                 <DialogDescription>
                      <div className='flex-col m-auto' >
-                        <div><textarea className='h-[140px] mt-12 w-[100%] p-2' placeholder='Add a Review' name="review" style={{resize: "none"}}id="" cols="10" rows="10">
+                        <div>
+                          <Rating SVGclassName={'inline-block'} size={20} allowFraction={true} initialValue={rating}  onClick={handleRating} />
+                        </div>
+                        <div><textarea className='h-[140px] mt-2 w-[100%] p-2' onChange={(e)=>setComment(e.target.value)} placeholder='Add a Review' name="review" style={{resize: "none"}}id="" cols="10" rows="10">
                         </textarea></div>
                         <div>
                         <button className='bg-primary py-2 px-4 rounded-sm text-black ' onClick={reviewHandler}  > Submit Review </button>
@@ -121,26 +148,32 @@ const addToCartBtn = ({data}) => {
     </div>
      </div>
     </div>
-    <div className='h-[30vh] w-[30vw]  border-black border-2 mt-12' >
-    <Carousel className='w-[100%]' >
-        <CarouselContent>
-            <CarouselItem>
-                <div>User1</div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis earum eveniet explicabo odio consectetur ab possimus aliquam quod dolorem aut!</CarouselItem>
-            <CarouselItem>
-               <div>User1</div>       
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis earum eveniet explicabo odio consectetur ab possimus aliquam quod dolorem aut!</CarouselItem>
-            <CarouselItem>
-                 <div>User1</div>  
-                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti dolorum esse quia ea ipsum quos fugiat saepe voluptate fuga repellendus eligendi natus vel quam molestiae enim, iusto, placeat est ad reiciendis ducimus, voluptas obcaecati. Sed hic neque veniam porro molestias voluptate nisi nemo quam quaerat quas, vero alias ducimus nobis.
-                </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-    </Carousel> 
+          <div className=' w-[30vw] p-3 pt-12  border-primary border-2 mt-12 flex justify-center ' >
+              {
+                  data.reviews.length === 0 ?
+                      (<div className='flex justify-center items-center mb-4' >
+                          <b>  No Reviews Yet</b>
+                      </div>) :
+            <Carousel className='w-[100%] min-h-[30vh] ' >
+                <CarouselContent className='h-[100%]' >
+                     {data.reviews.map((rev) => (
+                <CarouselItem className='h-[100%] ' >
+                        <div className='text-center mb-4 '  >
+                            <div><b>{rev.name}</b></div>
+                            <div><Rating SVGclassName={'inline-block'} size={20} allowFraction={true} initialValue={rev.rating} readonly={true} /></div>
+                        </div>
+                        <div className='text-center mb-4'>{rev.comment}
+                        </div>
+                    </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+            </Carousel>
+              }
 
-    </div>
-    </Fragment>
+          </div>
+      </Fragment>
 
   )
 }

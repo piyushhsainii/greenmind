@@ -1,21 +1,21 @@
 import axios from 'axios'
 import React, { Fragment } from 'react'
 import AddToCartBtn from '@/components/AddToCartBtn'
+import RatingComponent from '@/components/ratingComponent'
+// import { Rating } from 'react-simple-star-rating'
 
 async function FetchingPlantInfo(props){
     const plantID =  props.params.slug
     try {
      const { data } = await axios.post('http://localhost:3000/api/getProductInfo',{
         productID:plantID
-       })
+       }) 
        return data
     } catch (error) {
       console.error('Error fetching plant details:', error);
       throw new Error('Could not fetch plant details. Please try again later.');
     }
  }
-
-
 
 const page = async(props) => {
     const data = await FetchingPlantInfo(props)
@@ -31,9 +31,10 @@ const page = async(props) => {
               <div className='text-4xl' > {data.product.name}  </div>
               <div className=' text-muted-foreground'>{data.product.desc}   
                 </div>
+                <div > <RatingComponent rating={data.product.rating} />  </div>
               <div  className='text-xl' > ₹{data.product.price}</div>
               <div>
-              <AddToCartBtn data={data.product} />
+              <AddToCartBtn data={data.product} productID={props.params.slug} />
               </div>
             </div>
           </div>

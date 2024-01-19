@@ -5,7 +5,14 @@ export async function POST(req){
     const { id , reviews } = await req.json()
     let avg
     const product = await productModels.findById(id)
-    product.reviews.push(reviews)
+    product.reviews.push(
+        {
+            user: reviews.user,
+            name: reviews.name,
+            comment: reviews.comment,
+            rating: reviews.rating
+          }
+        )
     product.numofReviews = product.reviews.length
     avg = product.reviews.reduce((acc,item)=>acc+Number(item.rating),0)
     product.rating = Number(avg/product.reviews.length).toPrecision(3)
