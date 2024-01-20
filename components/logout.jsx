@@ -45,6 +45,10 @@ const logout = () => {
   
   const proceedToOrder = async(e) => {
     navigate.push('/shippingDetails')
+    sessionStorage?.setItem('OrdersubTotal',totalCartAmount)
+    sessionStorage?.setItem('OrderTotal',grosstotalAmount)
+    sessionStorage?.setItem('OrderTax',tax)
+    sessionStorage?.setItem('DeliveryCharge',deliveryCharges)
   }
   
 
@@ -76,6 +80,8 @@ const logout = () => {
     let totalCartAmount
     let grosstotalAmount
     let tax
+    let deliveryCharges 
+    
     if (typeof window !== 'undefined') {
       CART_ITEMS = localStorage.getItem('cartItem') ? JSON.parse(localStorage.getItem('cartItem')) : null   
        totalCartAmount = CART_ITEMS?.reduce((counter,item)=>
@@ -84,16 +90,22 @@ const logout = () => {
       // console.log(totalCartAmount,"total")
     }
     tax = totalCartAmount*10/100
-    {totalCartAmount < 999 ? grosstotalAmount = totalCartAmount + 199  + tax :grosstotalAmount = totalCartAmount + tax}
+    if(totalCartAmount < 999 ){
+      deliveryCharges = 199
+    } else {
+      deliveryCharges= 0
+    }
+    {totalCartAmount < 999 ? grosstotalAmount = totalCartAmount + deliveryCharges  + tax :grosstotalAmount = totalCartAmount + tax}
      const removeItemHandler = (id)=>{
       const filteredArray =  CART_ITEMS.filter((item)=>item.id !== id)
       localStorage.setItem('cartItem',JSON.stringify(filteredArray))
       setCartInfo(filteredArray)
     }
-      sessionStorage?.setItem('OrdersubTotal',totalCartAmount)
-      sessionStorage?.setItem('OrderTotal',grosstotalAmount)
-      sessionStorage?.setItem('OrderTax',tax)
-    
+     
+   if( CART_ITEMS?.length === 0 ){
+    sessionStorage.clear()
+   } 
+  
     useEffect(()=>{
       if(token){
         setLoading(false)
@@ -123,7 +135,7 @@ const logout = () => {
                       {
                         CART_ITEMS?.map((item)=>(
                          <div className='flex gap-2 my-4 border-4 justify-evenly ' >
-                           <div className='w-[60px] h-[65px] '> <img className='w-[60px] h-[65px] ' src={item.img} /> </div>
+                           <div className='w-[60px] h-[65px] '> <img className='w-[60px] h-[65px] ' src={item.img[0].url} /> </div>
                            <div className='pt-5' > {item.name} </div>
                            <div className='pt-5' >  ₹{item.price} </div> 
                            <div className='pt-5' > X </div> 
@@ -139,7 +151,7 @@ const logout = () => {
                         {
                           CART_ITEMS?.length === 0  ?
                           (
-                            <div className='text-2xl mt-5 ' >
+                            <div className='text-2xl mt-5 ml-16  ' >
                               Your Cart Is Empty!
                             </div>
                           ) : (
@@ -155,7 +167,7 @@ const logout = () => {
                                       Shipping Charges
                                     </div>
                                     <div className='text-black' >
-                                      {totalCartAmount > 999 ? "Free" :' ₹199'}
+                                      {deliveryCharges}
                                     </div>
                                   </div>                              
                              </div>
@@ -176,7 +188,9 @@ const logout = () => {
                           null : 
                           (
                         <div className='flex justify-center mt-6 ' >
-                          <Link href={'/shippingDetails'}> <button className='bg-primary px-8 py-4 text-black' > PROCEED TO CHECKOUT</button></Link> 
+                          {/* <Link href={'/shippingDetails'}>  */}
+                          <button className='bg-primary px-8 py-4 text-black' onClick={proceedToOrder} > PROCEED TO CHECKOUT</button>
+                          {/* </Link>  */}
                         </div>)
                         }
                     </SheetDescription>

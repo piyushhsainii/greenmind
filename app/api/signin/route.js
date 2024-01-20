@@ -66,7 +66,7 @@ export  async function POST(req) {
             .sign(new TextEncoder().encode(process.env.SECRET_KEY))
             cookies().set('token', jwt_token ,{ secure:true })
 
-         cookies().set('token',jwt_token,{ secure:true })
+            // cookies().set('token',jwt_token,{ secure:true })
          return Response.json(
             {
                 message: 'Successfully signed in!',

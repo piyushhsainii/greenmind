@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import {
+import { 
     Carousel,
     CarouselContent,
     CarouselItem,
@@ -41,11 +41,16 @@ const Section2 = async() => {
                     </div>
                 </div>
                 <div className='lg:w-[85%] mt-4 ' >
+                  {
+                    data.product.length===0 ?
+                      <div className='m-auto text-center flex justify-center items-center ' >No Product Found</div>
+                      :
                 <Carousel className='w-[60%] m-auto  ' >
                     <CarouselContent  >
-                        { data.product?.map((item)=>(
-                            <CarouselItem key={item._id} className='basis-2/3 w-[200px]  ' >
-                            <img src={item.Img} className='w-[350px]  md:h-[279px] lg:h-[357px]  ' alt="" />
+                        {                        
+                        data.product?.map((item)=>(
+                          <CarouselItem key={item._id} className='basis-2/3 w-[200px]  ' >
+                            <img src={item.Img[0].url} className='w-[350px]  md:h-[279px] lg:h-[357px]  ' alt="" />
                             <div className=' font-bold p-4 pb-2 ' >{item.name}</div>
                             <div className=' text-muted-foreground p-4 pt-0'> {item.price}</div>
                             </CarouselItem>
@@ -54,6 +59,7 @@ const Section2 = async() => {
                         <CarouselPrevious />
                         <CarouselNext />
                 </Carousel>
+                    }
                 </div>
         </div>
     </Fragment>

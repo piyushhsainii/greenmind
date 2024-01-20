@@ -4,6 +4,7 @@ import { paymentSetup } from '@/components/payment/stripe';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
+import { url } from '@/lib/url';
 import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
 
@@ -25,6 +26,23 @@ const shippingDetails = () => {
       if (session ) {
         window.location.href = session.url ?? "/";
       }
+      const taxPrice = sessionStorage.getItem('OrderTax')
+      const itemPrice = sessionStorage.getItem('OrdersubTotal')
+      const TotalAmount = sessionStorage.getItem('OrderTax')
+      const shippingCharges = sessionStorage.getItem('DeliveryCharge')
+      try {
+        const { data } = await axios.post(`${url}/api/createOrder`,{
+          OrderItems,
+          shippingDetails:ShippingInfo,
+          user,
+          itemPrice,
+          taxPrice,
+          shippingCharges,
+          TotalAmount
+        })
+      } catch (error) {
+        throw new Error("Error creating an Order",error)
+      }
     } catch (err) {
       console.error('error',err);
       toast({
@@ -36,10 +54,6 @@ const shippingDetails = () => {
   if(typeof window!=='undefined'){
     cartData = Math.floor( JSON.parse(sessionStorage.getItem('OrderTotal')))
     console.log(cartData)
-  // cartData = JSON.parse(localStorage.getItem('cartItem'))
-  // console.log(cartData)
-  // totalPrice = cartData.reduce((acc,item)=>acc+item.price*item.qty,0)
-  // console.log(`${totalPrice}00`)
   }
   return (
     <Fragment>

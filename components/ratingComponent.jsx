@@ -1,10 +1,15 @@
 'use client'
 import React from 'react'
-import { Rating } from 'react-simple-star-rating'
+import ReactStars from 'react-rating-star-with-type'
 
 const RatingComponent = ({rating}) => {
   return (
-    <Rating SVGclassName={'inline-block'} size={20} readonly={true}  allowFraction={true} initialValue={rating} />
+    <ReactStars 
+    value={rating ?? 0}  
+    isEdit={true}  
+    activeColor={'#FED900'}
+    size={17}
+    />
   )
 }
 

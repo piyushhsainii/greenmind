@@ -22,6 +22,7 @@ import {
 import { Rating } from 'react-simple-star-rating'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import ReactStars from 'react-rating-star-with-type'
   
 const addToCartBtn = ({data,productID}) => {
     const navigate = useRouter()
@@ -43,7 +44,7 @@ const addToCartBtn = ({data,productID}) => {
     }
     const cartItemHandler = ()=>{
         if(existingCartItems.length===0){
-            toast({
+            toast({ 
                 className:"bg-primary text-black ",
                 description:"Added to Cart"
             })
@@ -160,7 +161,15 @@ const addToCartBtn = ({data,productID}) => {
                 <CarouselItem className='h-[100%] ' >
                         <div className='text-center mb-4 '  >
                             <div><b>{rev.name}</b></div>
-                            <div><Rating SVGclassName={'inline-block'} size={20} allowFraction={true} initialValue={rev.rating} readonly={true} /></div>
+                            <div>
+                            <ReactStars 
+                                value={rev.rating ?? 0}  
+                                isEdit={true}  
+                                activeColor={'#FED900'}
+                                size={17}
+                                />
+                            {/* <Rating SVGclassName={'inline-block'} size={20} allowFraction={true} initialValue={rev.rating} readonly={true} />\ */}
+                            </div>
                         </div>
                         <div className='text-center mb-4'>{rev.comment}
                         </div>
