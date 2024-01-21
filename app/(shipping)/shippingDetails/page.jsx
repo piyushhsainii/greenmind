@@ -7,13 +7,14 @@ import { toast } from '@/components/ui/use-toast';
 import { url } from '@/lib/url';
 import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil';
-
+import jwt from 'jsonwebtoken'
 const shippingDetails = () => {
   const userEmail =  useRecoilValue(UserEmail)
   let cartData
   let totalPrice
-  console.log( userEmail, "lol")
-  console.log(userEmail,'jsad')
+  const cartItems = JSON.parse(localStorage.getItem('cartItem'))
+  console.log(cartItems,'cart Items')
+
   const proceedToPayment = async(e)=>{
     e.preventDefault();
     try {
@@ -26,6 +27,28 @@ const shippingDetails = () => {
       if (session ) {
         window.location.href = session.url ?? "/";
       }
+      const userEmail = localStorage.getItem('userEmail')
+      const [Address, setAddress] = useState('')
+      const [City, setCity] = useState('')
+      const [PinCode, setPinCode] = useState('')
+      const [phoneNo, setphoneno] = useState('')
+
+      const OrderItems = [
+        
+        {
+        name:"Order 1",
+        price:232,
+        quantity:6,
+        image:"https://res.cloudinary.com/dzow59kgu/image/upload/v1703793799/plant%20shop/asset11_ydlbzf.jpg",
+        productID:"65aa61326e5c17e1a61b769f"
+      }]
+      const ShippingInfo={
+        address:Address,
+        city:City,
+        PinCode:PinCode,
+        phoneno:phoneNo
+      }
+      const user = jwt.decode(userEmail, process.env.SECRET_KEY)
       const taxPrice = sessionStorage.getItem('OrderTax')
       const itemPrice = sessionStorage.getItem('OrdersubTotal')
       const TotalAmount = sessionStorage.getItem('OrderTax')

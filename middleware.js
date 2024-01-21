@@ -3,7 +3,6 @@ import { jwtVerify } from "jose";
 export default async function  userAuth (request){
      const Token = (request.cookies?.get('token')?.value)
      const verified = Token && await jwtVerify(Token, new TextEncoder().encode(process.env.SECRET_KEY))
-     console.log(verified)
      if(request.nextUrl.pathname.startsWith('/userAuth') && !verified){
        return 
      }
@@ -16,5 +15,6 @@ export default async function  userAuth (request){
  
 }
 export const config = {
-     matcher: ['/auth','/shippingDetails', '/userAuth' ]
+     matcher: ['/auth','/shippingDetails', '/userAuth', '/profile','/Orders' ]
    }
+

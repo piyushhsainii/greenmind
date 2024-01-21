@@ -25,12 +25,13 @@ import { useToast } from "@/components/ui/use-toast"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
 import Loading from "@/app/loading"
+const jwt = require('jsonwebtoken');
 
   export  function TabsTable() {   
     const [ userLogin, setUserLogin ] = useRecoilState(userAuth)
+    const [ userEmail, setUserEmail ] = useRecoilState(UserEmail)
     const { toast } = useToast() 
     const navigate = useRouter()
-    const [ userEmail, setUserEmail ]=useRecoilState(UserEmail)
 
     const loginapi = async ()=>{
         try {
@@ -42,17 +43,24 @@ import Loading from "@/app/loading"
             }
           if(data.user.success){
             setUserLogin(true)
+
             toast({ 
               description: "Successfully signed in!",
               variant:"custom"
-            })          
+            })            
+            const encryptedEmail = jwt.sign({email: data.user.data.email},process.env.SECRET_KEY,{          //creating a token
+             expiresIn:process.env.JWT_EXPIRE,
+              });
+             localStorage.setItem('userEmail',encryptedEmail)
+             const userEmailset = localStorage.getItem('userEmail')
+            setUserEmail(userEmailset)
             navigate.push('/')
           } 
         } catch (error) {
          error && console.log(error)
          toast({
           variant: "destructive",
-          description: `${error.response.data.message}`,
+          description: `${error}`,
         })
         }
       }
@@ -70,9 +78,14 @@ import Loading from "@/app/loading"
               description: "Account created successfully!",
               variant:"custom"
             })
+
             navigate.push('/')
           }       
           if(data.success){
+            const encryptedEmail  = jwt.sign({email:data.user.data.email},process.env.SECRET_KEY)
+            localStorage.setItem('userEmail',encryptedEmail)
+            const userEmailset = localStorage.getItem('userEmail')
+            setUserEmail(userEmailset)
             navigate.push('/')
             toast({          
               description: "Account created successfully!",

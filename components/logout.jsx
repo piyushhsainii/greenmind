@@ -1,7 +1,7 @@
 "use client"
 import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
-import { ToggleMode, userAuth } from './atoms/userAuth'
+import { ToggleMode, UserEmail, userAuth } from './atoms/userAuth'
 import { getCookie } from 'cookies-next'
 import { CarTaxiFront, Menu, Moon, ShoppingCart, Sun, SunMedium, SunMoon, Trash2 } from 'lucide-react'
 import {
@@ -38,6 +38,7 @@ const stripePromise = loadStripe(
 const logout = () => {
   const navigate = useRouter()
   const {toast} = useToast()
+  const [ userEmail, setUserEmail ] = useRecoilState(UserEmail)
   const [ userLogin, setuserLogin ] = useRecoilState(userAuth)
   const [ loading, setLoading ] = useState(true)
   const [toggle, setToggle] = useRecoilState(ToggleMode) 
@@ -110,9 +111,13 @@ const logout = () => {
       if(token){
         setLoading(false)
         setuserLogin(true)
+        const userEmailset = localStorage.getItem('userEmail')
+        setUserEmail(userEmailset)
       }else {
         setLoading(false)
         setuserLogin(false)
+        localStorage.removeItem('userEmail')
+        setUserEmail('')
       }
       setMounted(true)
     },[userAuth ,toggle,theme , userLogin,token,CartItem ])
