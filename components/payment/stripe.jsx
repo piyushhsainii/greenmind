@@ -5,10 +5,9 @@ import { stripe } from "@/lib/stripe";
 export const paymentSetup = async ({
   stripePriceId,
   email,
-  userId,
+  userId,  
   product
 }) => {
-  console.log(product, 'stripe ka hu')
   const stripeSession = await stripe.checkout.sessions.create({
     success_url: 'http://localhost:3000/PaymentSuccess',
     cancel_url: 'http://localhost:3000/PaymentFailed',
@@ -32,6 +31,6 @@ export const paymentSetup = async ({
         userId: userId,
       },
     });
-  return { url: stripeSession.url  };
+    return { url: stripeSession.url  };
 
 }
