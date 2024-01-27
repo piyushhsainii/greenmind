@@ -23,12 +23,15 @@ const headers = () => {
            <Link className='text-xl ' href={'/'} onClick={()=>{
  
            }} >
-            <img
+            {/* <img
             className='lg:ml-12 md:min-w-[125px] md:min-h-[22px] sm:min-w-[100px] sm:min-h-[23px]  min-w-[90px] min-h-[18px]'
             alt="Picture of the author"
             src='/GREENMIND.png'
             >
-            </img>
+            </img> */}
+          <div className=' font-[Quella] font-bold
+           text-xl
+           ' >GREENMIND</div>
            </Link>
           </div>
            <div className='sm:flex gap-7 font-sans font-medium hidden ' >
