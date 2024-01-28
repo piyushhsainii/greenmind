@@ -1,7 +1,7 @@
 "use client"
 import React, { Fragment, useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { ToggleMode, UserEmail, userAuth } from './atoms/userAuth'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { ToggleMode, UserEmail, UserProfile, userAuth } from './atoms/userAuth'
 import { getCookie } from 'cookies-next'
 import { CarTaxiFront, Menu, Moon, ShoppingCart, Sun, SunMedium, SunMoon, Trash2 } from 'lucide-react'
 import {
@@ -15,6 +15,7 @@ import {
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useToast } from "@/components/ui/use-toast"
+import jwt from 'jsonwebtoken'
 
 import {
   Sheet,
@@ -32,13 +33,11 @@ import { ScrollArea } from './ui/scroll-area'
 import { loadStripe } from '@stripe/stripe-js'
 import { paymentSetup } from '@/components/payment/stripe'
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+
 const logout = () => {
   const navigate = useRouter()
   const {toast} = useToast()
-  const [ userEmail, setUserEmail ] = useRecoilState(UserEmail)
+  const [ userEmail, setUserEmail ] = useRecoilState(UserProfile)
   const [ userLogin, setuserLogin ] = useRecoilState(userAuth)
   const [ loading, setLoading ] = useState(true)
   const [toggle, setToggle] = useRecoilState(ToggleMode) 
@@ -106,17 +105,23 @@ const logout = () => {
    if( CART_ITEMS?.length === 0 ){
     sessionStorage.clear()
    } 
-  
+   const user = useRecoilValue(UserProfile)
+    const decode = jwt.decode(user,process.env.SECRET_KEY)
+
+
+    const stripePromise = loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    );
     useEffect(()=>{
       if(token){
         setLoading(false)
         setuserLogin(true)
-        const userEmailset = localStorage.getItem('userEmail')
+        const userEmailset = localStorage.getItem('userProfileStatus')
         setUserEmail(userEmailset)
       }else {
         setLoading(false)
         setuserLogin(false)
-        localStorage.removeItem('userEmail')
+        localStorage.removeItem('userProfileStatus')
         setUserEmail('')
       }
       setMounted(true)
@@ -290,6 +295,12 @@ const logout = () => {
                 <DropdownMenuContent>
                     <Link href='/profile' className='cursor-pointer' > <DropdownMenuItem className='cursor-pointer' > Profile</DropdownMenuItem></Link>
                     <DropdownMenuSeparator />
+                    
+                    {decode?.user.admin==="true" ?
+                    <>
+                     <Link href={'/dashboard'} > <DropdownMenuItem className='cursor-pointer' > Dashboard</DropdownMenuItem></Link> <DropdownMenuSeparator /> 
+                    </>
+                    : null  }
                     <Link href='/orders' ><DropdownMenuItem className='cursor-pointer' > Orders</DropdownMenuItem></Link>
                     <DropdownMenuSeparator />
                     <Link href='#' className='cursor-pointer' onClick={SignOutHandler} ><DropdownMenuItem className='cursor-pointer' >Sign Out</DropdownMenuItem></Link>
@@ -302,7 +313,7 @@ const logout = () => {
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback> {null} </AvatarFallback>
               </Avatar>
-              </Link>
+              </Link> 
                
                 </div>
              )

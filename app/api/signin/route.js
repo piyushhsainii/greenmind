@@ -68,8 +68,9 @@ export  async function POST(req) {
 
          return Response.json(
             {
+                success:true,
                 message: 'Successfully signed in!',
-                user
+                userExist
             }
             ,
             {status:200}

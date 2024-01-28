@@ -1,5 +1,5 @@
 'use client'
-import { UserEmail } from '@/components/atoms/userAuth';
+import {UserProfile } from '@/components/atoms/userAuth';
 import { paymentSetup } from '@/components/payment/stripe';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken'
 import { useRouter } from 'next/navigation';
 const shippingDetails = () => {
   const navigation = useRouter()
-  const userEmail =  useRecoilValue(UserEmail)
+  const userEmail =  useRecoilValue(UserProfile)
   const user = jwt.decode(userEmail, process.env.SECRET_KEY)
   let cartData
   let totalPrice

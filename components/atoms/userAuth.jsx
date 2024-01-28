@@ -19,7 +19,7 @@ export const UserID = atom({
     key:'UserID',
     default:''
 })
-export const UserEmail = atom({
-    key:'UserEmail',
+export const UserProfile = atom({
+    key:'UserProfile',
     default:''
 })

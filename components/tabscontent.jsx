@@ -20,7 +20,7 @@ import {
   import axios from "axios"
   import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
-import { UserEmail, UserName, userAuth } from "./atoms/userAuth"
+import { UserName, UserProfile, userAuth } from "./atoms/userAuth"
 import { useToast } from "@/components/ui/use-toast"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
@@ -29,62 +29,66 @@ const jwt = require('jsonwebtoken');
 
   export  function TabsTable() {   
     const [ userLogin, setUserLogin ] = useRecoilState(userAuth)
-    const [ userEmail, setUserEmail ] = useRecoilState(UserEmail)
+    const [ userEmail, setUserEmail ] = useRecoilState(UserProfile)
     const { toast } = useToast() 
+    const [loading, setloading] = useState(false)
     const navigate = useRouter()
 
     const loginapi = async ()=>{
+      setloading(true)
+      if(loading){
+        <Loading />
+      } else {
         try {
           const { data  } = await axios.post(`http://localhost:3000/api/signin`,
             {email:Email,password:Password}
             )
-            if(!data){
-              <Loading/>
-            }
-          if(data.user.success){
+          if(data.success){
             setUserLogin(true)
 
             toast({ 
               description: "Successfully signed in!",
               variant:"custom"
             })            
-            const encryptedEmail = jwt.sign({email: data.user.data.email},process.env.SECRET_KEY,{          //creating a token
+            console.log(data.user)
+            const encryptedEmail = jwt.sign({user: data.userExist},process.env.SECRET_KEY,{          //creating a token
              expiresIn:process.env.JWT_EXPIRE,
               });
-             localStorage.setItem('userEmail',encryptedEmail)
-             const userEmailset = localStorage.getItem('userEmail')
+             localStorage.setItem('userProfileStatus',encryptedEmail)
+             const userEmailset = localStorage.getItem('userProfileStatus')
             setUserEmail(userEmailset)
+            setloading(false)
             navigate.push('/')
           } 
         } catch (error) {
          error && console.log(error)
+         setloading(false)
          toast({
           variant: "destructive",
-          description: `${error}`,
+          description: `${error?.response?.data?.message}`,
         })
-        }
+        }}     
+    
       }
+
+
     const signupapi = async ()=>{
         try {
           const { data  } = await axios.post(`http://localhost:3000/api/signup`,
             {name:Name,email:Email,password:Password}
           )
-          if(!data){
-            <Loading/>
-          }
           if(data.user.success){
             setUserLogin(true)
             toast({ 
               description: "Account created successfully!",
               variant:"custom"
             })
-
             navigate.push('/')
           }       
           if(data.success){
-            const encryptedEmail  = jwt.sign({email:data.user.data.email},process.env.SECRET_KEY)
-            localStorage.setItem('userEmail',encryptedEmail)
-            const userEmailset = localStorage.getItem('userEmail')
+            const encryptedEmail  = jwt.sign({user: data.userExist},process.env.SECRET_KEY)
+            localStorage.setItem('userProfileStatus',encryptedEmail)
+            const userEmailset = localStorage.getItem('userProfileStatus')
             setUserEmail(userEmailset)
             navigate.push('/')
             toast({          
@@ -96,11 +100,11 @@ const jwt = require('jsonwebtoken');
          error && console.log(error)
          toast({
           variant: "destructive",
-          description: `${error.response.data.message}`,
-        })
-        }
-    
+          description: `${error?.response?.data?.message}`,
+        })   
       }  
+      }
+        
     const [Name, setName] = useState('')
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
