@@ -1,57 +1,174 @@
-"use client"
-import React, { useState } from 'react'
-import {useStripe, useElements,ExpressCheckoutElement} from '@stripe/react-stripe-js';
-
-
-const CheckoutPageComponent = () => {
+import React, { useRef, useState } from "react";
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import jwt from 'jsonwebtoken'
+import { toast } from "./ui/use-toast";
+import axios from "axios";
+import { url } from "@/lib/url";
+import { useRouter } from "next/navigation";
+const CheckoutForm = () => {
+  const router =  useRouter()
   const stripe = useStripe();
   const elements = useElements();
-  const [errorMessage, setErrorMessage] = useState();
+  const [email, setEmail] = useState("");
+  const [loading, setloading] = useState(false)
+  const [paymentError, setPaymentError] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(null);
 
-  const onConfirm = async (event) => {
-    if (!stripe) {
-      // Stripe.js hasn't loaded yet.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
+  const user = localStorage.getItem('userProfileStatus')
+  const deocoded = jwt.decode(user, process.env.SECRET_KEY)
+  const shippingDetails = localStorage.getItem('shippingInfo')
+  const cartItem =  JSON.parse(localStorage.getItem('cartItem'))
+  const taxPrice = sessionStorage.getItem('OrderTax')
+  const itemPrice = sessionStorage.getItem('OrdersubTotal')
+  const TotalAmount = sessionStorage.getItem('OrderTotal')
+  const shippingCharges = sessionStorage.getItem('DeliveryCharge') 
 
-    const {error: submitError} = await elements.submit();
-    if (submitError) {
-      setErrorMessage(submitError.message);
-      return;
-    }
+  if(!shippingDetails || !cartItem.length < 1 ){
+    return router.push('/products')
+  }
 
-    // Create the PaymentIntent and obtain clientSecret
-    const res = await fetch('/stripe', {
-      method: 'POST',
-    });
-    const {client_secret: clientSecret} = await res.json();
+  const submitHandler = async (e) => {
+    e.preventDefault(); 
+    try {
+      if (!stripe || !elements) return;
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          payment_method_data: {
+            billing_details: {
+              email: email,
+            },
+          },
+        },
+        redirect: "if_required",
+      });
+      console.log("result", result);
 
-    // Confirm the PaymentIntent using the details collected by the Express Checkout Element
-    const {error} = await stripe.confirmPayment({
-      // `elements` instance used to create the Express Checkout Element
-      elements,
-      // `clientSecret` from the created PaymentIntent
-      clientSecret,
-      confirmParams: {
-        return_url: 'https://example.com/order/123/complete',
-      },
-    });
+      if (result.error) {
+        setPaymentError(
+          "Payment failed. Please check your card details and try again."
+        );
+        setPaymentSuccess(null);
+        console.log(result.error.message);
+      } else {
+        if (result.paymentIntent.status === "succeeded") {
+          setloading(true)
+          try {
+                const taxPrice = sessionStorage.getItem('OrderTax')
+                const itemPrice = sessionStorage.getItem('OrdersubTotal')
+                const TotalAmount = sessionStorage.getItem('OrderTotal')
+                const shippingCharges = sessionStorage.getItem('DeliveryCharge')
+                if(!taxPrice || !itemPrice || !TotalAmount || !shippingCharges ){
+                    toast({
+                      description:"Please Add Items in your cart",
+                      variant:"custom"
+                    })
+                    window.location.href='/products'
+                  }  
+                const cartItems = JSON.parse(localStorage.getItem('cartItem')) 
 
-    if (error) {
-      // This point is only reached if there's an immediate error when
-      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
-      setErrorMessage(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+                  const userEmail = localStorage.getItem('userProfileStatus')
+                  const OrderItems = 
+                    cartItems.map((item)=>(
+                      {
+                        name:item.name,
+                        price:item.price,
+                        quantity:item.qty,
+                        image:item.img[0],
+                        productID:item.id
+                      }
+                    ))      
+                
+                const shippinginfo = JSON.parse(shippingDetails)
+                  const ShippingInfo={
+                    address:shippinginfo.Address,
+                    city:shippinginfo.City,
+                    pincode:shippinginfo.PinCode,
+                    phoneno:shippinginfo.phoneNo
+                  }
+                      const user = jwt.decode(userEmail, process.env.SECRET_KEY)              
+                    const { data } = await axios.post(`${url}/api/createOrder`,{
+                      OrderItems,
+                      shippingDetails:ShippingInfo,
+                      user:user.email,
+                      itemPrice,
+                      taxPrice,
+                      shippingCharges,
+                      TotalAmount
+                    })
+          } catch (error) {
+            console.error('error',error);
+            toast({
+              description: "Something went wrong, please try again later.",
+              variant:"custom"      
+              });
+          }
+          window.location.href = '/successPage'
+          console.log(result);
+
+        } else {
+          console.log("There's some issue while processing payment ");
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
-  return (
-    <div id="checkout-page">
-     <ExpressCheckoutElement onConfirm={onConfirm} />
-    </div>
-  )
-}
 
-export default CheckoutPageComponent
+  return (
+    loading ? 
+    <div>
+      loading...
+    </div>
+    : 
+    <div className="max-w-md mx-auto p-4">
+      <h2 className="text-2xl font-semibold mb-4">Payment Page</h2>
+      <form className="space-y-4">
+        <label className="block">
+          <span className="text-gray-700">Email:</span>
+          <input
+            type="email"
+            value={deocoded.user.email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="my-2 p-2 w-full border rounded"
+          />
+        </label>
+        <div>
+          <PaymentElement />
+        </div>
+        <div className="flex justify-between font-bold " >
+         <div> SubTotal :</div> <div>₹{itemPrice}</div>
+        </div>
+        <div className="flex justify-between font-bold " >
+         <div> Tax :</div> <div>₹{taxPrice}</div>
+        </div>
+        <div className="flex justify-between font-bold " >
+          <div> Shipping :</div> <div>₹{shippingCharges}</div>
+        </div>
+        <hr></hr>
+        <div className="flex justify-between font-bold " >
+          <div> Total Amount :</div> <div>₹{TotalAmount}</div>
+        </div>
+        <div>
+
+        </div>
+        <button
+          onClick={submitHandler}
+          className="bg-primary text-white py-2 px-4 rounded focus:outline-none"
+        >
+          Initiate Payment
+        </button>
+        
+      </form>
+      {paymentError && <p style={{ color: "red" }}>{paymentError}</p>}
+      {paymentSuccess && <p style={{ color: "green" }}>{paymentSuccess}</p>}
+    </div>
+  );
+};
+
+export default CheckoutForm;

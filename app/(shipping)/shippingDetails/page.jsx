@@ -22,74 +22,22 @@ const shippingDetails = () => {
 
   const proceedToPayment = async(e)=>{
     e.preventDefault();
+    const shippingInfo = {
+      Address:Address,
+      City,
+      PinCode,
+      phoneNo,
+    }
+    localStorage.setItem('shippingInfo', JSON.stringify(shippingInfo) )
     navigation.push('/checkOutPage')
-    // const taxPrice = sessionStorage.getItem('OrderTax')
-    // const itemPrice = sessionStorage.getItem('OrdersubTotal')
-    // const TotalAmount = sessionStorage.getItem('OrderTax')
-    // const shippingCharges = sessionStorage.getItem('DeliveryCharge')
-    // if(!taxPrice || !itemPrice || !TotalAmount || !shippingCharges ){
-    //     toast({
-    //       description:"Please Add Items in your cart",
-    //       variant:"custom"
-    //     })
-    //     window.location.href='/products'
-    //   }  
-    // try {
-    //   const session = await paymentSetup({
-    //     email:user.email,
-    //     userId:"123",
-    //     stripePriceId:"1234",
-    //     product:`${cartData}00`
-    //   });
- 
-    //   if (session ) {
-    //     console.log(session)
-    //     window.location.href = session.url.url ?? "/";
-    //   }
-    //   const cartItems = JSON.parse(localStorage.getItem('cartItem'))
-    //   const userEmail = localStorage.getItem('userEmail')
-    //   const OrderItems = [
-    //     cartItems.map((item)=>(
-    //       {
-    //         name:item.name,
-    //         price:item.price,
-    //         quantity:item.qty,
-    //         image:item.img[0],
-    //         productID:item.id
-    //       }
-    //     ))      
-    // ]
-    //   const ShippingInfo={
-    //     address:Address,
-    //     city:City,
-    //     PinCode:PinCode,
-    //     phoneno:phoneNo
-    //   }
-    //   const user = jwt.decode(userEmail, process.env.SECRET_KEY)
-    //   try {
-    //     const { data } = await axios.post(`${url}/api/createOrder`,{
-    //       OrderItems,
-    //       shippingDetails:ShippingInfo,
-    //       user,
-    //       itemPrice,
-    //       taxPrice,
-    //       shippingCharges,
-    //       TotalAmount
-    //     })
-    //   } catch (error) {
-    //     throw new Error("Error creating an Order",error)
-    //   }
-    // } catch (err) {
-    //   console.error('error',err);
-    //   toast({
-    //      description: "Something went wrong, please try again later.",
-    //      variant:"custom"      
-    //     });
-    // }
   }
     if(typeof window!=='undefined'){
     cartData = Math.floor( JSON.parse(sessionStorage.getItem('OrderTotal')))
-    console.log(cartData)
+    const cartItem =  JSON.parse(localStorage.getItem('cartItem'))
+    console.log(cartItem.length)
+    if(cartItem.length < 1){
+      navigation.push('/products')
+    }
   }
   return (
     <Fragment>

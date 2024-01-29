@@ -23,7 +23,7 @@ const OrderSchema = new mongoose.Schema({
     ],
     // Deatails of Shipping and Address
     shippingDetails:[{
-        address:{type:String, required:true},
+        address:{type:String, required:true}, 
         city:{type:String, required:true},
         pincode:{type:Number, required:true},
         phoneno:{type:Number, required:true},
