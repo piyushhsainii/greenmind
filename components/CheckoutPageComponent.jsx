@@ -27,7 +27,7 @@ const CheckoutForm = () => {
   const TotalAmount = sessionStorage.getItem('OrderTotal')
   const shippingCharges = sessionStorage.getItem('DeliveryCharge') 
 
-  if(!shippingDetails || !cartItem.length < 1 ){
+  if(!shippingDetails || cartItem.length === 0 ){
     return router.push('/products')
   }
 
@@ -94,7 +94,7 @@ const CheckoutForm = () => {
                     const { data } = await axios.post(`${url}/api/createOrder`,{
                       OrderItems,
                       shippingDetails:ShippingInfo,
-                      user:user.email,
+                      user:user.user._id,
                       itemPrice,
                       taxPrice,
                       shippingCharges,

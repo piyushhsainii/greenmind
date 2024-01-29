@@ -135,7 +135,7 @@ const logout = () => {
       <div className='sm:flex gap-7 p-3 md:mr-5 '>
             <div className='sm:flex sm:gap-7 pt-4  hidden ' >
                <div>
-               <Sheet >     
+               <Sheet>     
                 <SheetTrigger><ShoppingCart strokeWidth={1}  /></SheetTrigger>
                     <SheetContent className='w-[500px] sm:max-w-none ' >
                <ScrollArea className="h-[85vh]  rounded-md  p-4 border border-solid border-[rgba(0, 0, 0, 0.5)]">

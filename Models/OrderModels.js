@@ -28,11 +28,11 @@ const OrderSchema = new mongoose.Schema({
         pincode:{type:Number, required:true},
         phoneno:{type:Number, required:true},
     }],
-    user:[{
+    user:{
         type:mongoose.Schema.ObjectId,
         required:true,
         ref:"user"
-    }],
+    },
     itemPrice:{type:Number,default:0},
     taxPrice:{type:Number,default:0},
     shippingCharges:{type:Number,default:0},

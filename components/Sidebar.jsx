@@ -11,7 +11,8 @@ const Sidebar = () => {
   return (
   <Fragment>
       <div className='w-[20%] border-[50%] border-slate-600 h-[100vh]' >
-        <div  className='font-bold m-2 px-[1.5]' > <Link href={'/dashboard'} >Dashboard</Link> </div>
+        <div  className='font-bold m-2 px-[1.7]' > <Link href={'/dashboard'} >Dashboard</Link> </div>
+        <hr></hr>
         <div className='px-2' >
             <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
@@ -36,11 +37,11 @@ const Sidebar = () => {
             </Accordion>
         </div>
         <div className='px-2'  >
-        <Accordion className='my-2'>
+        <Accordion type="single" collapsible className='my-2'>
             <AccordionItem value="item-1">
             <AccordionTrigger> Orders</AccordionTrigger>
             <AccordionContent>
-                <Link href={'/Orders'} >Orders</Link>
+                <Link href={'/adminOrders'} >Orders</Link>
                 </AccordionContent>
             </AccordionItem>
         </Accordion>

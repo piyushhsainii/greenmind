@@ -8,9 +8,9 @@ import {
   CardHeader,
   CardTitle,
   } from "@/components/ui/card"
+import Donut from '@/components/Donut';
 
 const Dashboard = async() => {
-  
   return (
     <Fragment>
         <div className='flex' >
@@ -45,6 +45,10 @@ const Dashboard = async() => {
                 </Card>
                 </div>
           </div>
+          <div className='flex  flex-col w-[30%] ' >
+            <div className='text-center text-lg '> Product Stock </div>
+            <Donut/>
+            </div>
         </div>
         </div>
     </Fragment>

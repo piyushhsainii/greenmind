@@ -1,4 +1,8 @@
  'use client'
+
+import { ArrowUpRightSquare } from "lucide-react";
+import Link from "next/link";
+
  export  const columns = [
             {
         accessorKey:"id",
@@ -15,6 +19,14 @@
             {
         accessorKey:"admin",
         header:'admin'
+            },         
+            {
+        accessorKey:"Manage",
+        header:'Manage',
+        cell:({row})=>{
+            const userID = row.getValue("id");
+            return <div> <Link href={`/user/${userID}`}> <ArrowUpRightSquare /> </Link> </div>
+        }
             },         
       ];
 

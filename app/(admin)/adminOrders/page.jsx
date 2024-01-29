@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Loader2, LoaderIcon } from "lucide-react";
 import Loading from "@/app/loading";
+import Sidebar from "@/components/Sidebar";
 
 export default function DemoPage() {
   const [data, setData] = useState()
@@ -27,10 +28,8 @@ export default function DemoPage() {
 
   // console.log(encodedID)
   const fetchData = async (ID)=>{
-    const { data } = await axios.post(`${url}/api/getOrder`,{
-      ID:ID?.user?._id
-    })
-    const structuredData = data.userOrders.map((order)=>(
+    const { data } = await axios.get(`${url}/api/getAllOrders`)
+    const structuredData = data.data.map((order)=>(
       {
         id:order._id,
         Items:order.OrderItems.length,
@@ -44,16 +43,18 @@ export default function DemoPage() {
 
 
   return (
-    <div className="container mx-auto py-10">
-      {
-        data ? 
-        <DataTable columns={columns} data={data ?? "loading..." } />     
-        :
-        <div>
-          <Loading/>
+  <div>
+        {
+          data ? 
+          <div className='flex' >
+        <Sidebar />
+            <div className='w-[80%] border border-black h-[100vh] ' >
+                 <DataTable columns={columns} data={data} />
+            </div>
         </div>
-      }
-
+        : 
+        <Loading />
+        }
     </div>
   );
 };

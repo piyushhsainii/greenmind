@@ -35,7 +35,7 @@ const shippingDetails = () => {
     cartData = Math.floor( JSON.parse(sessionStorage.getItem('OrderTotal')))
     const cartItem =  JSON.parse(localStorage.getItem('cartItem'))
     console.log(cartItem.length)
-    if(cartItem.length < 1){
+    if(cartItem.length === 0){
       navigation.push('/products')
     }
   }

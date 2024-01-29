@@ -3,7 +3,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import { Skeleton } from "@/components/ui/skeleton"
 
-const loading = () => {
+const Loading = () => {
     const [progress, setProgress] = useState(10)
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const loading = () => {
         )
 }
 
-export default loading
+export default Loading
 
 export function SkeletonDemo() {
   return (
