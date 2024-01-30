@@ -25,7 +25,7 @@ const profileDataFirstName = () => {
     }, [])
     
     return (
-      <Input id="name" placeholder="User Email" readOnly={true} value={UserInfo.email} />
+      <Input id="name" placeholder="User Name" readOnly={true} value={UserInfo.name} />
   )
 }
 

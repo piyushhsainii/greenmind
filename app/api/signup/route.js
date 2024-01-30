@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { z} from 'zod'
+import { nanoid } from 'nanoid';
+
 const jwt = require('jsonwebtoken')
 export async function POST(request) {
 
@@ -56,7 +58,7 @@ export async function POST(request) {
     }
     const user = await userModel.create({
       name,
-      email,
+      email, 
       password: HashedPassword,
     });
     console.log("code yaha tak sahi h?")

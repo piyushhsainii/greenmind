@@ -52,7 +52,7 @@ const page = async(props) => {
           </div>
           <div className='w-[50%]' >
             <div className='lg:ml-12 m-4 w-[400px] flex flex-col gap-3 mt-20 justify-center  ' >
-              <div className='text-4xl' > {data.product.name}  </div>
+              <div className='text-2xl' > {data.product.name}  </div>
               <div className=' text-muted-foreground'>{data.product.desc}   
                 </div>
                 <div >

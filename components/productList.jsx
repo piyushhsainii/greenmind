@@ -20,7 +20,7 @@ async function getData(params,category,price) {
  
  const ProductList = async({params,category,price}) => {
    const {data , data2} = await getData(params,category,price); 
-
+    console.log(data.products[0].Img[0].url, "ok")
   return (
    <Fragment>
     <div className='flex flex-wrap w-[100%] m-auto justify-evenly gap-0 ' >
@@ -31,7 +31,7 @@ async function getData(params,category,price) {
         </div>
         :       
               data.products.map((plant)=>(
-                <ProductCard id={plant._id} img={data.products[0].Img} key={plant._id} name={plant.name} price={plant.price} plant={plant} />       
+                <ProductCard key={plant._id} id={plant._id} img={plant?.Img[0].url} name={plant.name} price={plant.price} plant={plant} />       
               )
           )       
         }

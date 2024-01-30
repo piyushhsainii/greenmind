@@ -3,8 +3,8 @@ import connectingDB from "@/database/database";
 
 export async function POST(req){
     await connectingDB()
-    const { userEmail } = await req.json()
-    const user = await userModels.findOne({email:userEmail})
+    const { userID } = await req.json()
+    const user = await userModels.findById(userID)
     if(!user){
         return Response.json({
             success:false,

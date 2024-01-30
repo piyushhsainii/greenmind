@@ -296,7 +296,7 @@ const logout = () => {
                     <Link href='/profile' className='cursor-pointer' > <DropdownMenuItem className='cursor-pointer' > Profile</DropdownMenuItem></Link>
                     <DropdownMenuSeparator />
                     
-                    {decode?.user.admin==="true" ?
+                    {decode?.user?.admin=="true" ?
                     <>
                      <Link href={'/dashboard'} > <DropdownMenuItem className='cursor-pointer' > Dashboard</DropdownMenuItem></Link> <DropdownMenuSeparator /> 
                     </>

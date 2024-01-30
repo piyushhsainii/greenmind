@@ -20,7 +20,7 @@ const ProductCard = ({_id,img,name,price,plant}) => {
     <div className=' border-[3px] w-[330px] m-2  p-2 cursor-pointer ' onClick={onClickHandler} >
         <div>
         <img className='lg:w-[279px] h-[330px] m-auto '
-        src={img[0].url}
+        src={img}
         >         
         </img>
         </div>

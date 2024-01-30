@@ -9,8 +9,11 @@ import {
   CardTitle,
   } from "@/components/ui/card"
 import Donut from '@/components/Donut';
+import axios from 'axios';
+import { url } from '@/lib/url';
 
 const Dashboard = async() => {
+  const data = await getData()
   return (
     <Fragment>
         <div className='flex' >
@@ -20,7 +23,7 @@ const Dashboard = async() => {
                   <div className='border=[0.88px] border-slate-400 mt-4 h-[150px]' >
                 <Card>
                   <CardHeader>
-                    <CardTitle>12</CardTitle>
+                    <CardTitle>{ data.userCount} </CardTitle>
                     <CardDescription>Total Customers</CardDescription>
                   </CardHeader>
                 
@@ -29,7 +32,7 @@ const Dashboard = async() => {
                 <div className=' mt-4 h-[150px]' >
                 <Card>
                   <CardHeader>
-                    <CardTitle>20</CardTitle>
+                    <CardTitle> {data.ProductCount}  </CardTitle>
                     <CardDescription>Total Products</CardDescription>
                   </CardHeader>
                 
@@ -57,3 +60,7 @@ const Dashboard = async() => {
 
 export default Dashboard
 
+export async function getData(){
+  const { data } = await axios.get(`${url}/api/docCount`)
+  return data
+}

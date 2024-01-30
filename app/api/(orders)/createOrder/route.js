@@ -1,4 +1,5 @@
 import { Order } from "@/Models/OrderModels"
+import productModels from "@/Models/productModels"
 import connectingDB from "@/database/database"
 
 
@@ -13,6 +14,7 @@ export async function POST(req){
         TotalAmount
     } = await req.json()
     await connectingDB()
+
   try {
     const order = await Order.create({
         OrderItems,
@@ -23,6 +25,13 @@ export async function POST(req){
         shippingCharges,
         TotalAmount
    })
+
+   OrderItems.forEach(async(item)=>{
+     const updatedStock = await productModels.findById(item.productID)
+      updatedStock.stock = updatedStock.stock-item.quantity
+      await updatedStock.save()
+    })
+
    return Response.json({
     success:true,
     order

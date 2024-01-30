@@ -54,7 +54,7 @@ export  async function POST(req) {
                success:'false',
                message:"User's password does not match" 
             }      
-            ,{
+            ,{ 
                status:400
             })
          }
