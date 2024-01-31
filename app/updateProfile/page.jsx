@@ -19,11 +19,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import axios from 'axios'
 import { url } from '@/lib/url'
-import { useToast } from '@/components/ui/use-toast'
+// import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
 
 const Page = () => {
-  const {toast} = useToast()
+  // const {toast} = useToast()
   const [UserInfo, setUserInfo] = useState('')
   const user = useRecoilValue(UserProfile)
   const decodedEmail = jwt.decode(user,process.env.SECRET_KEY) 
@@ -32,6 +32,7 @@ const Page = () => {
   const [Password, setPassword] = useState(null)
   const [Cpassword, setCpassword] = useState(null)
   const navigation = useRouter()
+
   const fetchRequest = async (userID) => {
     const { data } = await axios.post(`${url}/api/UserDetails`, {
       userID
@@ -85,7 +86,7 @@ const Page = () => {
         setName(UserInfo.name);
         setEmail(UserInfo.email);
       }
-    }, [UserInfo]);
+    }, [UserInfo]); 
   return (
     <div>
     <Card className="w-[350px] m-auto ">

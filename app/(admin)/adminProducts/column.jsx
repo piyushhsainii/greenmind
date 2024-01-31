@@ -33,6 +33,15 @@
             return <div className="text-right font-medium">{formatted}</div>;
           },
         },
+        {
+          accessorKey:"Manage",
+          header:'Manage',
+          cell:({row})=>{
+              const userID = row.getValue("id");
+              return <div> <Link href={`/user/${userID}`}> <ArrowUpRightSquare /> </Link> </div>
+              }
+         },   
+         
       ];
 
   

@@ -19,7 +19,7 @@ const filter = ({props,category}) => {
   console.log(valueToken)
   const navigate = useRouter()
   const indoor = (props)=>{
-    props? navigate.push(`?page=${props}&category=indoor${valueToken ? `&price=${valueToken}` : "" }`) : navigate.push(`?category=indoor&price=${valueToken} : "" }  `)
+    props? navigate.push(`?page=${props}&category=indoor`) : navigate.push(`?category=indoor&price=${valueToken} : "" }  `)
   }
   const Outdoor = (props)=>{
     props? navigate.push(`?page=${props}&category=outdoor`) : navigate.push('?category=outdoor')

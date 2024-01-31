@@ -23,7 +23,6 @@ export default function DemoPage() {
     if(encodedID !== ''){
       fetchData(ID)
     }
-    console.log(ID)
   }, [encodedID]);
 
   // console.log(encodedID)

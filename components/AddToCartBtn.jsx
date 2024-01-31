@@ -23,7 +23,8 @@ import { Rating } from 'react-simple-star-rating'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import ReactStars from 'react-rating-star-with-type'
-  
+import jwt from 'jsonwebtoken'  
+
 const addToCartBtn = ({data,productID}) => {
     const navigate = useRouter()
     const [counter, setcounter] = useState(1)
@@ -62,7 +63,7 @@ const addToCartBtn = ({data,productID}) => {
             setCartInfo(cartCheck)
         }   
     }
-    const [name, setname] = useState('name')
+    const [name, setname] = useState('user')
     const [comment ,setComment] = useState('')
     const [rating, setratings] = useState(0)
     const productReviews = {
@@ -81,6 +82,7 @@ const addToCartBtn = ({data,productID}) => {
                 varirant:"destructive"
             })
         }
+
         const { data:data3} = await axios.post('/api/addReview',{
             id:productID ,reviews:productReviews
         })
@@ -97,8 +99,12 @@ const addToCartBtn = ({data,productID}) => {
         })
        )
     }
+    console.log(data.reviews)
         useEffect(()=>{
-
+        const encryptedData = localStorage.getItem('userProfileStatus')
+        const decoded =  jwt.decode(encryptedData,process.env.SECRET_KEY)
+        const userID = decoded.user.name
+        setname(userID)
         },[cartItemHandler,reviewHandler])
   return (
     <Fragment>

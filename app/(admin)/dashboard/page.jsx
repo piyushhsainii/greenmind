@@ -14,6 +14,8 @@ import { url } from '@/lib/url';
 
 const Dashboard = async() => {
   const data = await getData()
+  const TotalRevenue = data.RevenueGenerator.reduce((acc,item)=> acc+ item.TotalAmount,0)
+
   return (
     <Fragment>
         <div className='flex' >
@@ -41,7 +43,7 @@ const Dashboard = async() => {
                 <div  className=' mt-4 h-[150px]'>
                 <Card>
                   <CardHeader>
-                    <CardTitle>₹25,000</CardTitle>
+                    <CardTitle>₹{TotalRevenue.toFixed(2)}</CardTitle>
                     <CardDescription>Total Revenue</CardDescription>
                   </CardHeader>
                 

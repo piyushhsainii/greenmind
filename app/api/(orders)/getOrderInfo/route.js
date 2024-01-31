@@ -13,7 +13,7 @@ export async function POST(req) {
         { status: 400 })
     }
 
-    const userOrders = await Order.find({user:ID});
+    const userOrders = await Order.findById(ID);
 
     if (!userOrders) {
       return Response.json(

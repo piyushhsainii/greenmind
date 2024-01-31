@@ -25,7 +25,7 @@ import Link from "next/link";
         header:'Manage',
         cell:({row})=>{
             const userID = row.getValue("id");
-            return <div> <Link href={`/user/${userID}`}> <ArrowUpRightSquare /> </Link> </div>
+            return <div> <Link href={`/adminUser/${userID}`}> <ArrowUpRightSquare /> </Link> </div>
         }
             },         
       ];

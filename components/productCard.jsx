@@ -2,22 +2,15 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ReactStars from 'react-rating-star-with-type'
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-  } from "@/components/ui/carousel"
+
 const ProductCard = ({_id,img,name,price,plant}) => {
     const navigate = useRouter()
-    const [rating, setRating] = useState(2.7)
+    const [rating, setRating] = useState(plant.rating)
     const onClickHandler = ()=>{
       navigate.push(`/plant/${plant._id}`)
   }
-
   return (
-    <div className=' border-[3px] w-[330px] m-2  p-2 cursor-pointer ' onClick={onClickHandler} >
+    <div className=' border rounded-sm border-slate-600 w-[330px] m-2  p-2 cursor-pointer ' onClick={onClickHandler} >
         <div>
         <img className='lg:w-[279px] h-[330px] m-auto '
         src={img}

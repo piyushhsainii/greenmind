@@ -1,3 +1,4 @@
+import { Order } from "@/Models/OrderModels";
 import productModels from "@/Models/productModels";
 import userModels from "@/Models/userModels";
 
@@ -7,6 +8,8 @@ export async function GET(){
         return Response.json({
             success:false,
             message:"Something went wrong"
+        },{
+            status:400
         })
     }
     const ProductCount = await productModels.countDocuments()
@@ -14,11 +17,26 @@ export async function GET(){
         return Response.json({
             success:false,
             message:"Something went wrong"
+        },{
+            status:400
         })
     }
+    const RevenueGenerator = await Order.find()
+    if(!RevenueGenerator){
+        return Response.json({
+            success:false,
+            message:"Something went wrong"
+        },{
+            status:400
+        })
+    }
+
     return Response.json({
         success:true,
         userCount,
-        ProductCount
+        ProductCount,
+        RevenueGenerator
+    },{
+        status:200
     })
 }

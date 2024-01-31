@@ -78,7 +78,7 @@ const CheckoutForm = () => {
                         name:item.name,
                         price:item.price,
                         quantity:item.qty,
-                        image:item.img[0],
+                        image:item.img[0].url,
                         productID:item.id
                       }
                     ))      

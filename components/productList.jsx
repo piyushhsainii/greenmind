@@ -15,11 +15,11 @@ async function getData(params,category,price) {
    } catch (error) {
      console.log('failed to fetch data',error)
    } 
-    
  } 
  
  const ProductList = async({params,category,price}) => {
    const {data , data2} = await getData(params,category,price); 
+  
   return (
    <Fragment>
     <div className='flex flex-wrap w-[100%] m-auto justify-evenly gap-0 ' >

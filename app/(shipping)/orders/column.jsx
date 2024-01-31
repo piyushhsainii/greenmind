@@ -6,6 +6,7 @@ import Link from "next/link";
         header:'Order Id',
         cell:({row})=>{
           const UserID = row.getValue("id");
+          const OrderID = row.getValue("UserID");
           return <div className="" > <Link href={`/order/${UserID}`}> {UserID} </Link> </div>
            }
             },
@@ -18,8 +19,9 @@ import Link from "next/link";
         header:'UserID',
         cell:({row})=>{
           const UserID = row.getValue("UserID"); 
-          const orderID = row.getValue("id"); 
-          return <div className="" > <Link href={`/order/${orderID}`}> {UserID} </Link> </div>
+          const OrderID = row.getValue("id");
+
+          return <div className="" > <Link href={`/order/${OrderID}`}> {UserID} </Link> </div>
            }
             },
             { 
