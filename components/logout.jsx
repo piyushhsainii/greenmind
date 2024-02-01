@@ -144,7 +144,7 @@ const logout = () => {
                     <SheetDescription >
                       {
                         CART_ITEMS?.map((item)=>(
-                         <div className='flex gap-2 my-4 border-4 justify-evenly ' >
+                         <div className='flex gap-2 my-4 border-4 justify-evenly ' key={item._id} >
                            <div className='w-[60px] h-[65px] '> <img className='w-[60px] h-[65px] ' src={item.img[0].url} /> </div>
                            <div className='pt-5' > {item.name} </div>
                            <div className='pt-5' >  ₹{item.price} </div> 
@@ -253,10 +253,82 @@ const logout = () => {
                      <div> <Link href='/' >Home</Link></div>
                      <div> <Link href='/products' >Products</Link></div>
                      <div> <Link href='/contacts' >Contact</Link></div>
-                     <div> <Link href='/contacts' >
+                     <div> 
                           <div>
-                          <ShoppingCart strokeWidth={1} />
-                          </div></Link>
+                          <Sheet>     
+                <SheetTrigger><ShoppingCart strokeWidth={1}  /></SheetTrigger>
+                    <SheetContent className='w-[100vw] sm:max-w-none ' >
+               <ScrollArea className="h-[85vh]  rounded-md  p-4 border border-solid border-[rgba(0, 0, 0, 0.5)]">
+                  <SheetHeader>
+                    <SheetTitle className='flex text-center justify-center gap-3'><ShoppingCart size={25} />CART</SheetTitle>
+                    <SheetDescription >
+                      {
+                        CART_ITEMS?.map((item)=>(
+                         <div className='flex gap-2 my-4 border-4 justify-evenly ' key={item._id} >
+                           <div className='w-[60px] h-[65px] '> <img className='w-[60px] h-[65px] ' src={item.img[0].url} /> </div>
+                           <div className='pt-5' > {item.name} </div>
+                           <div className='pt-5' >  ₹{item.price} </div> 
+                           <div className='pt-5' > X </div> 
+                           <div className='pt-5' > {item.qty} </div>
+                           <div className='pt-5' > = </div>
+                           <div className='pt-5' >  ₹{item.qty * item.price} </div>
+                           <div className='pt-5 cursor-pointer ' onClick={()=>removeItemHandler(item.id)} >  <Trash2 size={24} color="#f22121" strokeWidth={1.25} /> </div>
+                         </div>
+                        ))
+                      }
+
+                        <div className='flex w-[100%] font-bold '  >
+                        {
+                          CART_ITEMS?.length === 0  ?
+                          (
+                            <div className='text-2xl mt-5 ml-16  ' >
+                              Your Cart Is Empty!
+                            </div>
+                          ) : (
+                          <div className=' w-[100%]' >
+                              <div> Total Products : {CART_ITEMS?.length} </div> 
+                            <div className='flex justify-between gap-5 '  >
+                            <div>SUBTOTAL </div>
+                              <div className='text-black' >  <b>₹{totalCartAmount}</b>  </div>
+                            </div>
+                            <div>
+                                  <div className='flex justify-between gap-5 ' >
+                                    <div>
+                                      Shipping Charges
+                                    </div>
+                                    <div className='text-black' >
+                                      {deliveryCharges}
+                                    </div>
+                                  </div>                              
+                             </div>
+                             <div className='flex justify-between gap-5 '  >
+                            <div>Tax </div>
+                              <div className='text-black' >  <b>₹{tax}</b>  </div>
+                            </div>
+                             <div className='flex justify-between gap-5 '  >
+                            <div>SUBTOTAL </div>
+                              <div className='text-black' >  <b>₹{grosstotalAmount}</b>  </div>
+                            </div>
+                          </div>
+                          )
+                        }
+                        </div>
+                        {
+                          CART_ITEMS?.length === 0  ?
+                          null : 
+                          (
+                        <div className='flex justify-center mt-6 ' >
+                          {/* <Link href={'/shippingDetails'}>  */}
+                          <button className='bg-primary px-8 py-4 text-black' onClick={proceedToOrder} > PROCEED TO CHECKOUT</button>
+                          {/* </Link>  */}
+                        </div>)
+                        }
+                    </SheetDescription>
+                  </SheetHeader>
+                    </ScrollArea>
+                </SheetContent>
+            </Sheet>
+                          </div>
                       </div>
                       {
                       userLogin ? 

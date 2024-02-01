@@ -22,7 +22,7 @@ const Section2 = async() => {
   return (
     <Fragment>
         <div className='w-[85vw]  m-auto mb-5 flex-col  md:flex md:flex-row  '  >
-                <div className='lg:w-[20%] flex flex-col w-[300px] m-auto md:m-0 p-8 pr-0 gap-8 ' >
+                <div className='lg:w-[40%] flex flex-col w-[300px] m-auto md:m-0 p-8 pr-0 gap-8 ' >
                     <div>
                       <TypographyH3/>
                     </div>
@@ -40,20 +40,26 @@ const Section2 = async() => {
                         </div>
                     </div>
                 </div>
-                <div className='lg:w-[85%] mt-4 ' >
+                <div className='
+                md:w-[100vw]
+                mt-4
+                p-2
+                max-w-[600px] ' >
                   {
                     data.product.length===0 ?
                       <div className='m-auto text-center flex justify-center items-center ' >No Product Found</div>
                       :
-                <Carousel className='w-[60%] m-auto  ' >
+                <Carousel className='w-[100%] m-auto  ' >
                     <CarouselContent  >
                         {                        
                         data.product?.map((item)=>(
-                          <CarouselItem key={item._id} className='basis-2/3 w-[200px]  ' >
-                            <img src={item.Img[0].url} className='w-[350px]  md:h-[279px] lg:h-[357px]  ' alt="" />
+                        <Link  className='basis-2/3 w-[350px]' key={item._id} href={`/plant/${item._id}`}>
+                          <CarouselItem className=' ' >
+                            <img src={item.Img[0].url} className='min-w-[350px]  h-[357px]  ' alt="" />
                             <div className=' font-bold p-4 pb-2 ' >{item.name}</div>
                             <div className=' text-muted-foreground p-4 pt-0'> {item.price}</div>
                             </CarouselItem>
+                        </Link>
                         )) }                    
                     </CarouselContent>
                         <CarouselPrevious />

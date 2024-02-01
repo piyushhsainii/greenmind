@@ -42,7 +42,7 @@ const section1 = () => {
                 </div>
                 <div className='w-[70vw]  md:w-[30vw] flex gap-0  mt-12 md:ml-12 ml-8  '>
                     <div className='w-[100%]  p-1 '>
-                    <Input className='' ></Input>
+                    <Input className='' readOnly={true} ></Input>
                     </div>
                     <span className='bg-primary w-[15%] pt-3 rounded-lg ' >
                     <Search size={22} className='m-auto glex  items-center'  color='#000000' ></Search>
