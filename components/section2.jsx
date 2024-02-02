@@ -44,7 +44,9 @@ const Section2 = async() => {
                 md:w-[100vw]
                 mt-4
                 p-2
-                max-w-[600px] ' >
+                max-w-[600px] 
+                min-w-[200px]
+                ' >
                   {
                     data.product.length===0 ?
                       <div className='m-auto text-center flex justify-center items-center ' >No Product Found</div>

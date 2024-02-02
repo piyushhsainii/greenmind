@@ -21,7 +21,7 @@ const OrderDetails = async({params}) => {
     const data = await getData(params.slug)
     console.log(data)
   return (
-    <div className='flex gap-2' >
+    <div className='flex flex-col sm:flex-row gap-2' >
             <div className='m-4 w-[20%] ' >
             <div className="space-y-1">
                 <h4 className="text-sm font-medium leading-none">Your Order Details</h4>
@@ -47,20 +47,19 @@ const OrderDetails = async({params}) => {
                         <CardContent>
                        {
                         data.userOrders.OrderItems.map((prod)=>(
-
-                    <Fragment>
-                <div className='flex justify-evenly m-2 border-slate-600 border-[0.5px] rounded-md '>
-                    <div className=' p-2 m-2 inline-block' >             
-                        <div className="grid w-full items-center gap-4">                     
-                            <Fragment >
-                            <div>
-                                <div className="flex flex-col space-y-1.5">
+                    <Fragment  >
+                    <div className='flex flex-col lg:flex-row justify-evenly m-2 min-w-[150px] sm:min-w-[400px] lg:min-w-[681px] border-slate-600 border-[0.5px] w-[100%] rounded-md '>
+                        <div className=' p-2 m-2 inline-block' >             
+                            <div className="grid w-full items-center gap-4">                     
+                                <Fragment >
+                                <div>
+                                <div className="flex flex-col space-y-1.5 min-w-[200px]">
                                     <Label htmlFor="name" className='text-md'>{prod.name} </Label>
                                     <Label htmlFor="name">{prod.TotalAmount}</Label>
                                     <Label htmlFor="name"> Quantity : {prod.quantity} </Label>
                                     <div> <img className='w-[200px] ml-5' src={prod.image} alt="" /> </div>
-                                    </div>
                                 </div>
+                            </div>
                             </Fragment>
                             
                             <div>
@@ -71,7 +70,7 @@ const OrderDetails = async({params}) => {
                         </div>
                           <Separator orientation="vertical" />
                                 <div className='' >
-                                    <Card className="w-[500px] border-none">
+                                    <Card className="max-w-[500px] border-none">
                                             <CardHeader>
                                                 <CardTitle>Shipping Info</CardTitle>
                                                 <CardDescription>Check your shipping Info</CardDescription>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Section4 = () => {
   return (
-    <div className='h-[50vh] bg-[#C1DCDC] flex  flex-col sm:flex-row justify-between md:flex-row ' >
+    <div className='min-h-[350px] text-black bg-[#C1DCDC] flex  flex-col sm:flex-row justify-between md:flex-row ' >
         <div className='flex flex-col gap-4 m-4 ml-8 justify-start md:text-left text-center md:justify-normal ' >
             <div className='font-[Quella] font-bold text-lg mt-8' >GREENMIND</div>
             <div className='text-sm'>We help you find <br></br> your dream plant</div>

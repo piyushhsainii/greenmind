@@ -10,7 +10,7 @@ import {
 const Sidebar = () => {
   return (
   <Fragment>
-      <div className='w-[20%] border-[50%] border-slate-600 h-[100vh]' >
+      <div className='w-[20%] hidden sm:block border-[50%] border-slate-600 h-[100vh]' >
         <div  className='font-bold m-2 px-[1.7]' > <Link href={'/dashboard'} >Dashboard</Link> </div>
         <hr></hr>
         <div className='px-2' >

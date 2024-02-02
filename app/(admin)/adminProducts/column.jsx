@@ -1,4 +1,8 @@
  'use client'
+
+import { ArrowUpRightSquare } from "lucide-react";
+import Link from "next/link";
+
  export  const columns = [
             {
         accessorKey:"id",

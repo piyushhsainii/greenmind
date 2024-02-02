@@ -19,11 +19,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import axios from 'axios'
 import { url } from '@/lib/url'
-// import { useToast } from '@/components/ui/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
 
 const Page = () => {
-  // const {toast} = useToast()
+  const {toast} = useToast()
   const [UserInfo, setUserInfo] = useState('')
   const user = useRecoilValue(UserProfile)
   const decodedEmail = jwt.decode(user,process.env.SECRET_KEY) 
@@ -54,6 +54,9 @@ const Page = () => {
               description:"Password does not match",
               variant:"destructive"
             })
+          }
+          if(Name===UserInfo.name &&  Email===UserInfo.email){
+            return
           }
         const { data } = await axios.put(`${url}/api/updateProfile`, {
           userID:decodedEmail.user._id , name:Name, email:Email,password:Password

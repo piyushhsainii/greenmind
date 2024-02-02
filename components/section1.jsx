@@ -41,11 +41,11 @@ const section1 = () => {
                     </div>
                 </div>
                 <div className='w-[70vw]  md:w-[30vw] flex gap-0  mt-12 md:ml-12 ml-8  '>
-                    <div className='w-[100%]  p-1 '>
-                    <Input className='' readOnly={true} ></Input>
+                    <div className='w-[100%]  p-[0.15rem] '>
+                    <Input className='p-[0.25rem]' readOnly={true} ></Input>
                     </div>
-                    <span className='bg-primary w-[15%] pt-3 rounded-lg ' >
-                    <Search size={22} className='m-auto glex  items-center'  color='#000000' ></Search>
+                    <span className='bg-primary w-[15%] pt-2.5 rounded-lg p-1 ' >
+                    <Search size={21} className='m-auto glex  items-center'  color='#000000' ></Search>
                     </span>
                 </div>
         </div>

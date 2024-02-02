@@ -20,7 +20,7 @@ import { Label } from "@/components/ui/label"
 import Link from 'next/link'
 
 const Page = () => {
-
+  console.log(process.env.MONGO_URI)
   return (
     <div>
     <Card className="w-[350px] m-auto mt-4 ">

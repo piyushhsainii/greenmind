@@ -74,8 +74,8 @@ const AdminDetails = async({params}) => {
         }
       }, [UserInfo]); 
   return (
-    <div className='flex gap-2' >
-            <div className='m-4 w-[20%] ' >
+    <div className='flex gap-2 flex-col sm:flex-row ' >
+            <div className='sm:m-4 sm:w-[20%] p-2 w-[100%] m-auto ' >
             <div className="space-y-1">
                 <h4 className="text-sm font-medium leading-none">User Details</h4>
                 <p className="text-sm text-muted-foreground">
@@ -83,10 +83,10 @@ const AdminDetails = async({params}) => {
                 </p>
             </div>
             <Separator className="my-4" />
-            <div className='text-sm' > <Link href={'/orders'}>Back</Link> </div>
+            <div className='text-sm' > <Link href={'/adminUsers'}>Back</Link> </div>
              <Separator orientation="vertical" />
             </div>
-            <div className=' w-[80%]' >
+            <div className=' w-[80%] m-auto' >
              <div className='' >
                 <div className='' >
                 <Card 
@@ -99,7 +99,7 @@ const AdminDetails = async({params}) => {
                         
                         <CardContent>
                         <div>
-            <Card className="w-[350px] m-auto ">
+            <Card className="min-w-[100px] max-w-[350px] m-auto ">
             <CardHeader>
                 <CardTitle>Update Profile</CardTitle>
                 <CardDescription>Manage your account</CardDescription>
@@ -126,7 +126,7 @@ const AdminDetails = async({params}) => {
                 </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex justify-between ">
+            <CardFooter className="flex  w-[100%] flex-wrap m-auto justify-center ">
                 <Link href={'/adminUsers'}> <Button className='bg-red-800 hover:bg-red-900 text-white '>Discard Changes </Button></Link>
                 <Button className='text-white' onClick={updateChangeHandler} >Update Changes</Button>
             </CardFooter>

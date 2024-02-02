@@ -20,8 +20,8 @@ import Link from 'next/link'
 const OrderDetails = async({params}) => {
     const data = await getData(params.slug)
   return (
-    <div className='flex gap-2' >
-            <div className='m-4 w-[20%] ' >
+    <div className='flex flex-col sm:flex-row gap-2' >
+            <div className='m-auto p-3 sm:m-4 w-[100%] sm:w-[20%] ' >
             <div className="space-y-1">
                 <h4 className="text-sm font-medium leading-none">Your Order Details</h4>
                 <p className="text-sm text-muted-foreground">
@@ -29,9 +29,10 @@ const OrderDetails = async({params}) => {
                 </p>
             </div>
             <Separator className="my-4" />
-            <div className='text-sm' > <Link href={'/orders'}>Back</Link> </div>
+            <div className='text-sm' > <Link href={'/adminOrders'}>Back</Link> </div>
              <Separator orientation="vertical" />
             </div>
+
             <div className=' w-[80%]' >
              <div className='' >
                 <div className='' >
@@ -47,8 +48,9 @@ const OrderDetails = async({params}) => {
                         {
                     data?.userOrders.map((orderItem) => (
                     <Fragment key={orderItem._id}  >
-                <div className='flex justify-evenly m-2 border-slate-600 border-[0.5px] rounded-md '>
-                    <div className=' p-2 m-2 inline-block' key={orderItem._id} >             
+                <div className='flex flex-wrap justify-evenly m-2 border-slate-600 border-[0.5px] rounded-md '>
+                            {/*  */}
+                    <div className=' w-[300px]  p-2 m-2 inline-block' key={orderItem._id} >             
                         <div className="grid w-full items-center gap-4">
                             {
                             orderItem.OrderItems.map((item) => (
@@ -70,9 +72,10 @@ const OrderDetails = async({params}) => {
                         </div>
                         <Separator className="my-4" />     
                         </div>
+                        {/*  */}
                           <Separator orientation="vertical" />
                                 <div className='' >
-                                    <Card className="w-[500px] border-none">
+                                    <Card className="max-w-[400px] border-none">
                                             <CardHeader>
                                                 <CardTitle>Shipping Info</CardTitle>
                                                 <CardDescription>Check your shipping Info</CardDescription>

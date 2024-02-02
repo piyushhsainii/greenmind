@@ -1,5 +1,5 @@
 "use client"
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, Suspense, useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ToggleMode, UserEmail, UserProfile, userAuth } from './atoms/userAuth'
 import { getCookie } from 'cookies-next'
@@ -242,14 +242,14 @@ const logout = () => {
               }} size={24} color="#ffffff" strokeWidth={1.5} absoluteStrokeWidth cursor={'pointer'} /> 
             }
             </div>
-            
+            {/* PHONE MENU STARTS FROM HERE */}
             <Sheet>
                 <SheetTrigger> <Menu strokeWidth={1.75} /></SheetTrigger>
                 <SheetContent>
                   <SheetHeader>
                     <SheetTitle> <img src='/GREENMIND.png'className='md:min-w-[132px] md:min-h-[27px] sm:min-w-[100px] sm:min-h-[23px]  min-w-[90px] min-h-[18px] m-auto ' ></img> </SheetTitle>
                     <SheetDescription  >
-                      <div className='flex flex-col m-auto gap-12 items-center justify-center mt-7' >
+                      <div className='flex flex-col m-auto gap-8 items-center justify-center mt-7' >
                      <div> <Link href='/' >Home</Link></div>
                      <div> <Link href='/products' >Products</Link></div>
                      <div> <Link href='/contacts' >Contact</Link></div>
@@ -330,6 +330,15 @@ const logout = () => {
             </Sheet>
                           </div>
                       </div>
+                     <Suspense fallback="...loading" >
+                     {decode?.user?.admin=="true" ?
+                       <>
+                       <Link href={'/dashboard'} > Dashboard </Link> <DropdownMenuSeparator /> 
+                      </>
+                      :
+                      null
+                      }
+                     </Suspense>
                       {
                       userLogin ? 
                       <div className='flex flex-col gap-14 items-center justify-center' >

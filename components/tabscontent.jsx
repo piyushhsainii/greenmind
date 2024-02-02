@@ -112,7 +112,10 @@ const jwt = require('jsonwebtoken');
       useEffect(()=>{
       },[userLogin])
   return (
-
+    
+      loading ?
+       <Loading/> 
+       :
     <Tabs defaultValue="account" className="w-[400px] p-4 border-solid border-primary rounded-md border-2  text-primary  ">
       <TabsList className="grid w-full grid-cols-2 " >
         <TabsTrigger value="account" >Sign In</TabsTrigger>
@@ -201,5 +204,6 @@ const jwt = require('jsonwebtoken');
         </Card>
       </TabsContent>
     </Tabs>
+  
   )
 }
