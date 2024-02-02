@@ -34,9 +34,9 @@ const page = async(props) => {
     const data = await FetchingPlantInfo(props)
   return (
     <Fragment>
-      <div className='flex flex-row w-screen m-auto justify-center gap-16' >
-          <div className='lg:h-[500px] w-[50%] m-auto'  >
-            <Carousel className='lg:h-[430px] lg:w-[400px] m-auto lg:ml-60 border-4 ' >
+      <div className='flex flex-row w-screen m-auto justify-center gap-12 flex-wrap' >
+          <div className='h-[500px] min-w-[300px]'  >
+            <Carousel className='h-[430px] min-w-[340px] m-auto  border-4 ' >
               <CarouselContent>
               {
               data.product.Img.map((product)=>(
@@ -50,8 +50,8 @@ const page = async(props) => {
                         <CarouselNext />
                 </Carousel>       
           </div>
-          <div className='w-[50%]' >
-            <div className='lg:ml-12 m-4 w-[400px] flex flex-col gap-3 mt-20 justify-center  ' >
+          <div className='min-w-[300px] border border-black m-4 mb-8' >
+            <div className='lg:m-12  min-w-[400px] flex flex-col gap-3 mt-20 m-auto justify-center  ' >
               <div className='text-2xl' > {data.product.name}  </div>
               <div className=' text-muted-foreground'>{data.product.desc}   
                 </div>

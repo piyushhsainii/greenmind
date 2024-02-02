@@ -155,7 +155,7 @@ const addToCartBtn = ({data,productID}) => {
     </div>
      </div>
     </div>
-          <div className=' w-[30vw] p-3 pt-12  border-slate-600 border-opacity-50 border mt-12 flex justify-center ' >
+          <div className=' min-w-[30vw] p-3 pt-12  border-slate-600 border-opacity-50 border mt-12 flex justify-center ' >
               {
                   data.reviews.length === 0 ?
                       (<div className='flex justify-center items-center mb-4' >

@@ -22,7 +22,7 @@ async function getData(params,category,price) {
   
   return (
    <Fragment>
-    <div className='flex flex-wrap w-[100%] m-auto justify-evenly gap-0 ' >
+    <div className='flex flex-wrap w-[100%] m-auto justify-evenly  gap-0' >
       {
         data.products.length === 0 ?
         <div className='text-2xl grid justify-center items-center h-[500px] w-[100%] font-bold ' >

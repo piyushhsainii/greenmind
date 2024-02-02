@@ -6,15 +6,15 @@ import ProductList from '@/components/productList'
  const app = async(props ) => {
   return (
     <Fragment>
-       <div className='w-[95vw] flex  ml-2 '  >
+       <div className='w-[95vw] flex flex-col md:flex-row ml-2 '  >
        <div 
           style={{border:"solid rgba(0, 0, 0, 0.250) 1px"}}
-          className='w-[20%]  '
+          className='md:w-[20%]  w-[90%] m-auto sm:m-2 '
           >
           <Filter props={props.searchParams.page} category={props.searchParams.category} />
        </div>
         <div
-        className='w-[80%] '          
+        className='w-[80%] m-auto '          
         >
         <ProductList params={props.searchParams.page} category={props.searchParams.category} price={props.searchParams.price} />      
          </div>
