@@ -3,14 +3,14 @@ import connectingDB from "@/database/database";
 import cloudinary from 'cloudinary'
 
 export async function POST(req){
+    const {  name,desc,price,Img,category,stock,user} = await req.json()
     await connectingDB()
-    try {  
+    try {   
     cloudinary.config({
         cloud_name:process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
         api_key:process.env.NEXT_PUBLIC_API_KEY,
         api_secret:process.env.NEXT_PUBLIC_SECRET_KEY
     })
-    const {  name,desc,price,Img,category,stock,reviews,user,numofReviews} = await req.json()
 
         try {
 

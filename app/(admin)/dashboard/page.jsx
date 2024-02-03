@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+'use client'
+import React, { Fragment, useState } from 'react'
 import Sidebar from '@/components/Sidebar';
 import {
   Accordion,
@@ -32,18 +33,43 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Menu } from 'lucide-react';
+import { useRecoilValue } from 'recoil';
+import { UserProfile } from '@/components/atoms/userAuth';
+import { useEffect } from 'react';
+import jwt from 'jsonwebtoken'
+import Loading from '@/app/loading';
 
-const Dashboard = async() => {
-  const data = await getData()
-  const TotalRevenue = data.RevenueGenerator.reduce((acc,item)=> acc+ item.TotalAmount,0)
+const Dashboard = () => {
+  const [Info, setdata] = useState('')
+  const [revenue, setRevenue] = useState('')
+  const encoded = useRecoilValue(UserProfile)
+  const user = jwt.decode(encoded,process.env.SECRET_KEY)
+  console.log(user)
+  console.log(revenue)
+  if(user?.user?.admin === "false"){
+    window.location.href = '/'
+  }
+  async function getDoc(){
+    const { data } = await axios.get(`${url}/api/docCount`)
+    setdata(data)
+    setRevenue(data.RevenueGenerator.reduce((acc,item)=> acc+ item.TotalAmount,0))
+  }
+
+  useEffect(()=>{
+    getDoc()
+  },[])
 
   return (
     <Fragment>
+      {Info==='' ?
+    <Loading />  
+      : 
+
         <div className='flex flex-col sm:flex-row ' >
               <div className='sm:hidden' >
                   <Sheet >
               <SheetTrigger >
-                <Button variant="outline"> <Menu /> </Button>
+                 <Menu />
               </SheetTrigger>
               <SheetContent side={'left'}>  
               <SheetHeader>
@@ -100,7 +126,7 @@ const Dashboard = async() => {
                   <div className='border=[0.88px] border-slate-400 mt-4 h-[150px]' >
                 <Card>
                   <CardHeader>
-                    <CardTitle>{ data.userCount} </CardTitle>
+                    <CardTitle>{ Info.userCount} </CardTitle>
                     <CardDescription>Total Customers</CardDescription>
                   </CardHeader>
                 
@@ -109,7 +135,7 @@ const Dashboard = async() => {
                 <div className=' mt-4 h-[150px]' >
                 <Card>
                   <CardHeader>
-                    <CardTitle> {data.ProductCount}  </CardTitle>
+                    <CardTitle> {Info.ProductCount}  </CardTitle>
                     <CardDescription>Total Products</CardDescription>
                   </CardHeader>
                 
@@ -118,7 +144,7 @@ const Dashboard = async() => {
                 <div  className=' mt-4 h-[150px]'>
                 <Card>
                   <CardHeader>
-                    <CardTitle>₹{TotalRevenue.toFixed(2)}</CardTitle>
+                    <CardTitle>₹{ revenue&&  revenue.toFixed(2)  }</CardTitle>
                     <CardDescription>Total Revenue</CardDescription>
                   </CardHeader>
                 
@@ -131,13 +157,10 @@ const Dashboard = async() => {
             </div>
         </div>
         </div>
+    }
     </Fragment>
   )
 }
 
 export default Dashboard
 
-export async function getData(){
-  const { data } = await axios.get(`${url}/api/docCount`)
-  return data
-}

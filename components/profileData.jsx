@@ -10,6 +10,7 @@ import { url } from '@/lib/url'
 const profileDataFirstName = () => {
     const user = useRecoilValue(UserProfile)
     const decodedEmail = jwt.decode(user,process.env.SECRET_KEY) 
+    console.log(decodedEmail)
     const [UserInfo, setUserInfo] = useState('')
   const fetchRequest = async (userID) => {
     const { data } = await axios.post(`${url}/api/UserDetails`, {

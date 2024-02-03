@@ -69,7 +69,7 @@ const Page = () => {
                       navigation.push('/profile')
                 } else {
                       toast({
-                        description: "Something went wrong",
+                        description: "Something went wrong", 
                         variant:"custom"
                       })
                 }

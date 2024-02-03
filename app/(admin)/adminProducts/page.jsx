@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import { columns } from "../adminProducts/column";
 const { DataTable } = require("../adminProducts/data-table");
 import Sidebar from '@/components/Sidebar';
@@ -25,17 +26,45 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from 'next/link'
+import jwt from 'jsonwebtoken'
+import { useRecoilValue } from 'recoil';
+import { UserProfile } from '@/components/atoms/userAuth';
+import Loading from '@/app/loading';
 
 
-const page = async() => { 
-    const data = await getData();
+const page = () => { 
+  const [Info, setdata] = useState('')
+    const encoded = useRecoilValue(UserProfile)
+    const user = jwt.decode(encoded,process.env.SECRET_KEY)
+    if(user?.user?.admin === "false"){
+      window.location.href = '/'
+    }
+    async function getData() {
+      const { data } = await axios.get(`${url}/api/adminallProducts`) 
+      setdata(data.products.map(item=>(
+        {id:item._id,
+        name:item.name,
+        stock:item.stock,
+        rating:item.rating,
+        category:item.category,
+        price:item.price}
+        )))
+      
+    }
+    useEffect(()=>{
+      getData()
+    },[])
+
   return (
-        <div>
+        <div>       
+         { !Info=== '' ?
+         <Loading/>
+            : 
         <div className='flex  flex-col sm:flex-row ' >
         <div className='sm:hidden  ' >
               <Sheet >
               <SheetTrigger >
-                <Button variant="outline"> <Menu /> </Button>
+              <Menu /> 
               </SheetTrigger>
               <SheetContent side={'left'}>  
               <SheetHeader>
@@ -88,25 +117,13 @@ const page = async() => {
               </div>
         <Sidebar />
             <div className='w-[100%] border border-black  ' >
-                 <DataTable columns={columns} data={data} />
+                 <DataTable columns={columns} data={Info} />
             </div>
         </div>
+        }
     </div>
   )
 }
 
 export default page
 
-async function getData() {
-
-    const { data } = await axios.get(`${url}/api/adminallProducts`) 
-     return data.products.map(item=>(
-      {id:item._id,
-      name:item.name,
-      stock:item.stock,
-      rating:item.rating,
-      category:item.category,
-      price:item.price}
-      ))
-    
-  }

@@ -41,8 +41,8 @@ import Link from "next/link";
           accessorKey:"Manage",
           header:'Manage',
           cell:({row})=>{
-              const userID = row.getValue("id");
-              return <div> <Link href={`/user/${userID}`}> <ArrowUpRightSquare /> </Link> </div>
+              const productID = row.getValue("id");
+              return <div> <Link href={`/adminProduct/${productID}`}> <ArrowUpRightSquare /> </Link> </div>
               }
          },   
          

@@ -73,6 +73,7 @@ const jwt = require('jsonwebtoken');
 
 
     const signupapi = async ()=>{
+      setloading(true)
         try {
           const { data  } = await axios.post(`http://localhost:3000/api/signup`,
             {name:Name,email:Email,password:Password}
@@ -90,6 +91,7 @@ const jwt = require('jsonwebtoken');
             localStorage.setItem('userProfileStatus',encryptedEmail)
             const userEmailset = localStorage.getItem('userProfileStatus')
             setUserEmail(userEmailset)
+            setloading(false)
             navigate.push('/')
             toast({          
               description: "Account created successfully!",
@@ -97,6 +99,7 @@ const jwt = require('jsonwebtoken');
             })
           }
         } catch (error) {
+          setloading(false)
          error && console.log(error)
          toast({
           variant: "destructive",

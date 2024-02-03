@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import { columns } from "./column";
 const { DataTable } = require("./data-table");
 import Sidebar from '@/components/Sidebar';
@@ -23,18 +24,38 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
- 
+import { UserProfile } from '@/components/atoms/userAuth';
+import { useRecoilValue } from 'recoil';
+ import jwt from 'jsonwebtoken'
 
-const page = async() => {
-    const data = await getData();
-
+const page = () => {
+  const [Info, setdata] = useState('')
+  const encoded = useRecoilValue(UserProfile)
+  const user = jwt.decode(encoded,process.env.SECRET_KEY)
+  if(user?.user?.admin === "false"){
+    window.location.href = '/'
+  }
+      async function getData() {
+        const { data } = await axios.get(`${url}/api/getAllUsers`) 
+        setdata(data.user.map(item=>(
+          {id:item._id,
+          name:item.name,
+          email:item.email,
+          admin:item.admin,
+        }
+          )))
+        
+      }
+      useEffect(()=>{
+        getData()
+      },[])
     return (
       <div>
       <div className='flex flex-col sm:flex-row' >
       <div className='sm:hidden h-[100px] w-[100px] sm:h-[auto] ' >
             <Sheet >
               <SheetTrigger >
-                <Button variant="outline"> <Menu /> </Button>
+              <Menu /> 
               </SheetTrigger>
               <SheetContent side={'left'}>  
               <SheetHeader>
@@ -87,7 +108,7 @@ const page = async() => {
               </div>
            <Sidebar />
           <div className='w-[100%] border-[50%] mt-2 border-slate-600 h-[100vh] ' >
-               <DataTable columns={columns} data={data} />
+               <DataTable columns={columns} data={Info} />
           </div>
       </div>
   </div>
@@ -96,14 +117,3 @@ const page = async() => {
 
 export default page
 
-async function getData() {
-    const { data } = await axios.get(`${url}/api/getAllUsers`) 
-     return data.user.map(item=>(
-      {id:item._id,
-      name:item.name,
-      email:item.email,
-      admin:item.admin,
-    }
-      ))
-    
-  }

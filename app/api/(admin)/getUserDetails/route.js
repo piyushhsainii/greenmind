@@ -8,7 +8,7 @@ export async function POST(req){
             success:false,
             message:"User does not exist"
         })
-    }
+    } 
     return Response.json({
         succcess:true,
         user:userInfo,

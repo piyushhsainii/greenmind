@@ -28,12 +28,20 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
+import { useRecoilValue } from "recoil";
+import { UserProfile } from "@/components/atoms/userAuth";
 
 export default function DemoPage() {
   const [data, setData] = useState()
   const [encodedID, setencodedID] = useState('')
+
+  const encoded = useRecoilValue(UserProfile)
+  const user = jwt.decode(encoded,process.env.SECRET_KEY)
   
+  if(user?.user?.admin === "false"){
+    window.location.href = '/'
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedEncodedID = localStorage.getItem('userProfileStatus');
@@ -43,6 +51,10 @@ export default function DemoPage() {
     if(encodedID !== ''){
       fetchData(ID)
     }
+    if(user?.user?.admin === "false"){
+      window.location.href = '/'
+    }
+  
   }, [encodedID]);
 
   // console.log(encodedID)
@@ -62,13 +74,16 @@ export default function DemoPage() {
 
 
   return (
+    
+      !data ? 
+      <Loading/>
+       :  
       <Fragment>
-
       <div className='flex flex-col sm:flex-row' >
        <div className='sm:hidden  ' >
               <Sheet >
                 <SheetTrigger >
-                  <Button variant="outline"> <Menu /> </Button>
+                <Menu /> 
                 </SheetTrigger>
                 <SheetContent side={'left'}>  
                 <SheetHeader>

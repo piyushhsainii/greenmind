@@ -15,8 +15,9 @@ export default async function  userAuth (request){
  
 }
 export const config = {
-     matcher: ['/auth','/shippingDetails', '/userAuth', '/profile','/Orders', '/dashboard',
-      '/adminUsers', '/adminProducts', '/adminOrders', '/createProducts' , '/updateProfile'
+     matcher: ['/auth','/shippingDetails', '/userAuth', '/profile', '/order/:slug', '/shippingDetails'  ,'/Orders', '/dashboard',
+     '/checkOutPage', '/successPage',
+     '/adminUsers', '/adminUser/:id', '/adminProducts', '/adminOrder/:slug', '/adminOrders', '/createProduct' , '/updateProfile'
     ]
    }
 

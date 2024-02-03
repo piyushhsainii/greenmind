@@ -9,12 +9,12 @@ import { toast } from './ui/use-toast'
 
 
 const headers = () => {
+  const url = usePathname()
   return (
     <div className={`flex justify-between overflow-hidden  top-0 relative `} >
         <div className='pl-5 pt-4 my-4 flex gap-4 sm:gap-10 md:gap-16 md:ml-7 ' >
           <div>
            <Link className='text-xl  ' href={'/'} onClick={()=>{
- 
            }} >
           <div className=' font-[Quella] font-semibold
            text-xl 
@@ -22,10 +22,10 @@ const headers = () => {
            </Link>
           </div>
            <div className='sm:flex gap-7 font-sans font-medium hidden ' >
-           <Link href={'/'}> Home</Link>
+           <Link className={`${url==='/' ? "font-bold" :""} `} href={'/'}> Home</Link>
          
-           <Link href={'/products'} > Products </Link>
-           <Link href={'/contacts'} >Contacts </Link>
+           <Link className={`${url==='/products' ? "font-bold" :""} `} href={'/products'} > Products </Link>
+           <Link className={`${url==='/contacts' ? "font-bold" :""} `} href={'/contacts'} >Contact </Link>
            </div> 
         </div>
         <Logout />

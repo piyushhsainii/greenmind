@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+'use client'
+import React, { Fragment, useEffect } from 'react'
 import { Separator } from "@/components/ui/separator"
 import {
     Card,
@@ -15,10 +16,27 @@ import axios from 'axios'
 import { url } from '@/lib/url'
 import { Item } from '@radix-ui/react-radio-group'
 import Link from 'next/link'
+import { useRecoilValue } from 'recoil'
+import { UserProfile } from '@/components/atoms/userAuth'
+import jwt from 'jsonwebtoken'
 
+const OrderDetails = ({params}) => {
+    const encoded = useRecoilValue(UserProfile)
+    const user = jwt.decode(encoded,process.env.SECRET_KEY)
+    if(user?.user?.admin === "false"){
+      window.location.href = '/'
+    }
+    async function getData(params){
+        const { data } = await axios.post(`${url}/api/getOrder`,{
+            ID:params
+        })
+        return data
+    }
 
-const OrderDetails = async({params}) => {
-    const data = await getData(params.slug)
+    useEffect(()=>{
+        getData(params.slug)
+    },[])
+
   return (
     <div className='flex flex-col sm:flex-row gap-2' >
             <div className='m-auto p-3 sm:m-4 w-[100%] sm:w-[20%] ' >
@@ -121,9 +139,3 @@ const OrderDetails = async({params}) => {
 
 export default OrderDetails
 
-async function getData(params){
-    const { data } = await axios.post(`${url}/api/getOrder`,{
-        ID:params
-    })
-    return data
-}

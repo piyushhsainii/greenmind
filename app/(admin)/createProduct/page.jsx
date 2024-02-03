@@ -37,8 +37,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { useRecoilValue } from 'recoil'
+import { UserProfile } from '@/components/atoms/userAuth'
 
 const Page = () => {
+  const encoded = useRecoilValue(UserProfile)
+  const user = jwt.decode(encoded,process.env.SECRET_KEY)
+  if(user?.user?.admin === "false"){
+    window.location.href = '/'
+  }
   const {toast} = useToast()
   const navigate = useRouter()
   const [ImageArray, setImageArray] = useState([])
@@ -117,9 +124,9 @@ const Page = () => {
     <Fragment>
       <div className=' flex w-screen flex-col sm:flex-row' >
       <div className='sm:hidden h-[100px] w-[100px] sm:h-[auto] ' >
-                  <Sheet>
+          <Sheet>
               <SheetTrigger >
-                <Button variant="outline"> <Menu /> </Button>
+              <Menu /> 
               </SheetTrigger>
               <SheetContent side={'left'}>  
               <SheetHeader>
@@ -234,26 +241,3 @@ const Page = () => {
 
 export default Page
 
-
-
-// 'use client'
-// import { CldUploadWidget } from 'next-cloudinary';
-// import React from 'react'
-
-// const page = () => {
-
-
-//   return (
-//     <CldUploadWidget uploadPreset="ml_default">
-//   {({ open }) => {
-//     return (
-//       <button onClick={() => open()}>
-//         Upload an Image
-//       </button>
-//     );
-//   }}
-// </CldUploadWidget>
-//   )
-// }
-
-// export default page

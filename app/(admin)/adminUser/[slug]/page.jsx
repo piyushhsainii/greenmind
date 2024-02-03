@@ -23,7 +23,15 @@ import { useState } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
 
-const AdminDetails = async({params}) => {
+const AdminDetails = ({params}) => {
+
+  const encoded = useRecoilValue(UserProfile)
+  const user2 = jwt.decode(encoded,process.env.SECRET_KEY)
+  if(user2?.user?.admin === "false"){
+    window.location.href = '/'
+  }
+
+
     const {toast} = useToast()
     const [UserInfo, setUserInfo] = useState('')
     const user = useRecoilValue(UserProfile)
@@ -142,10 +150,3 @@ const AdminDetails = async({params}) => {
 }
 
 export default AdminDetails
-
-// async function getData(params){
-//     const { data } = await axios.post(`${url}/api/UserDetails`,{
-//         userID:params
-//     })
-//     return data
-// }

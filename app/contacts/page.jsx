@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label'
-import { Hand } from 'lucide-react'
+import { Github, Hand, Linkedin, Twitter } from 'lucide-react'
 import React, { Fragment } from 'react'
 import Link from 'next/link'
 import FeedBackForm from '@/components/feedBackForm'
@@ -29,6 +29,14 @@ const Contacts = () => {
                 </div>
                 <div>
                 <Label htmlFor="name" >  &copy;  2024 all Rights Reserved Term of use GREENMIND  </Label>
+                </div>
+                <div className='text-center mt-4' >
+                        Connect with Me
+                    <div className='flex justify-center gap-4 m-4' >
+                        <div> <Link  target='blank' href='https://github.com/piyushhsainii'><Github></Github></Link>  </div>
+                        <div> <Link target='blank' href={'https://twitter.com/piyushsainii'}> <Twitter /> </Link>  </div>
+                        <div> <Link  target='blank'href={'https://www.linkedin.com/in/piyush-saini-b860ab1bb/'}> <Linkedin /> </Link>  </div>
+                    </div>
                 </div>
             </div>
             </div>

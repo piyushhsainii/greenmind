@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
   const connectingDB = async()=>{
     try {
-        const { connection  } = await mongoose.connect('mongodb://localhost:27017',{
+        const { connection  } = await mongoose.connect(process.env.MONGO_URI,{
             dbName:'Plant-Shop'
         })
             console.log(`Database has been connected`, connection.host)
