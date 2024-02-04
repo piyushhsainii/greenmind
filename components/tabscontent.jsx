@@ -25,6 +25,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
 import Loading from "@/app/loading"
+import { url } from "@/lib/url"
 const jwt = require('jsonwebtoken');
 
   export  function TabsTable() {   
@@ -40,7 +41,7 @@ const jwt = require('jsonwebtoken');
         <Loading />
       } else {
         try {
-          const { data  } = await axios.post(`http://localhost:3000/api/signin`,
+          const { data  } = await axios.post(`${url}/api/signin`,
             {email:Email,password:Password}
             )
           if(data.success){
@@ -75,7 +76,7 @@ const jwt = require('jsonwebtoken');
     const signupapi = async ()=>{
       setloading(true)
         try {
-          const { data  } = await axios.post(`http://localhost:3000/api/signup`,
+          const { data  } = await axios.post(`${url}/api/signup`,
             {name:Name,email:Email,password:Password}
           )
           if(data.user.success){

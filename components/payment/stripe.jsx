@@ -9,8 +9,8 @@ export const paymentSetup = async ({
   product
 }) => {
   const stripeSession = await stripe.checkout.sessions.create({
-    success_url: 'http://localhost:3000/PaymentSuccess',
-    cancel_url: 'http://localhost:3000/PaymentFailed',
+    success_url: `${url}/PaymentSuccess`,
+    cancel_url: `${url}/PaymentFailed`,
     payment_method_types: ['card'],
     mode: 'payment',
     billing_address_collection: "auto",

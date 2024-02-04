@@ -32,6 +32,7 @@ import { CartItem } from './atoms/userAuth'
 import { ScrollArea } from './ui/scroll-area'
 import { loadStripe } from '@stripe/stripe-js'
 import { paymentSetup } from '@/components/payment/stripe'
+import { url } from '@/lib/url'
 
 
 const logout = () => {
@@ -54,7 +55,7 @@ const logout = () => {
 
   const SignOutHandler = async()=>{
        try {
-        const { data } = await axios.delete('http://localhost:3000/api/logout') 
+        const { data } = await axios.delete(`${url}/api/logout`) 
         if(data.success){
           setuserLogin(false)
           toast({

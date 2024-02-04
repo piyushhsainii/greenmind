@@ -2,11 +2,12 @@ import React, { Fragment} from 'react'
 import ProductCard from './productCard'
 import PaginationComponent from './PaginationComponent'
 import axios from 'axios';
+import { url } from '@/lib/url';
 
 async function getData(params,category,price) {
   try {
-     const { data } = await axios.get(`http://localhost:3000/api/allProducts?page=${params ?? "1"} ${category ? `&category=${category}` : "" } ${price ? `&price=${price}` : ""} `);
-     const { data:data2 } = await axios.get(`http://localhost:3000/api/adminallProducts`);
+     const { data } = await axios.get(`${url}/api/allProducts?page=${params ?? "1"} ${category ? `&category=${category}` : "" } ${price ? `&price=${price}` : ""} `);
+     const { data:data2 } = await axios.get(`${url}/api/adminallProducts`);
 
      if(data.success==='false'){
       throw new Error('failed to fetch data')
