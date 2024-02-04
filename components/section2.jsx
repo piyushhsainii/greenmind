@@ -8,12 +8,15 @@ import {
   } from "@/components/ui/carousel"
 import { MoveRight } from 'lucide-react'
 import Link from 'next/link'
-import axios from 'axios'
-import { NEXT_URL } from '../utils/url'
+import connectingDB from '@/database/database'
+import productModels from '@/Models/productModels'
   
 async function fetchRandomPlants (){
-  const { data } = await axios.get(`${NEXT_URL}/api/FetchFeaturedPlants`)
-  return data
+  await connectingDB()
+  const product = await productModels.aggregate([
+      {$sample:{size:5}}
+  ])
+  return product
 }
 
 
@@ -48,13 +51,13 @@ const Section2 = async() => {
                 min-w-[200px]
                 ' >
                   {
-                    data.product.length===0 ?
+                    data.length===0 ?
                       <div className='m-auto text-center flex justify-center items-center ' >No Product Found</div>
                       :
                 <Carousel className='w-[100%] m-auto  ' >
                     <CarouselContent  >
                         {                        
-                        data.product?.map((item)=>(
+                        data?.map((item)=>(
                         <Link  className='basis-2/3 w-[350px]' key={item._id} href={`/plant/${item._id}`}>
                           <CarouselItem className=' ' >
                             <img src={item.Img[0].url} className='min-w-[350px]  h-[357px]  ' alt="" />

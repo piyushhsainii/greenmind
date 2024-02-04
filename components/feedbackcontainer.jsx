@@ -3,10 +3,11 @@ import React from 'react'
 import axios from 'axios'
 import { url } from '@/lib/url'
 import FeedbackCarousel from './feedbackCarousel'
+import { Feedback } from '@/Models/FeedBackModel'
+import connectingDB from '@/database/database'
 
 const FeedBackContainer = async() => {
- 
-  const data = await apiHandler()
+  const data = await getData() 
   return (
     <div className=''>
       <div className='text-xl font-bold m-9' >
@@ -14,7 +15,10 @@ const FeedBackContainer = async() => {
       </div>
      <div className='w-[90vw] h-[300px] m-auto text-black mb-20' >
         <div className='w-[90vw] m-auto  h-[500px] ' > 
+        {
+        data && 
           <FeedbackCarousel data={data}/>
+        }
         </div>
       </div>
     </div>
@@ -23,7 +27,8 @@ const FeedBackContainer = async() => {
 
 export default FeedBackContainer
 
-async  function apiHandler(){
-  const { data } = await axios.get(`${url}/api/getFeedback`)
- return data
+async  function getData(){
+  await connectingDB()
+  const feedback = await Feedback.find()
+  return feedback
 }

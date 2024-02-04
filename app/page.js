@@ -7,7 +7,7 @@ import FeedBackContainer from '@/components/feedbackcontainer'
 const home = () => {
   
   return (
-        <Fragment>
+         <>
           <Suspense fallback={<p>Loading Feed...</p>} >
             <Section1/>
           </Suspense>
@@ -23,7 +23,8 @@ const home = () => {
           <Suspense fallback={<p>Loading Feed...</p>} >
             <Section4/>
           </Suspense>
-        </Fragment>
+          </>
+    
   )
 }
 

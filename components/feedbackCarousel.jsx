@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/carousel"
 
 const feedbackCarousel = ({data}) => {
+  console.log(data)
   return (
         <Carousel>
             <CarouselContent className='ml-2' >
-            {data.feedback.map((feedback)=>(
+            {data.map((feedback)=>(
             <CarouselItem key={feedback._id} className=" bg-[#C1DCDC] ml-4 min-h-[300px]  p-3  border border-black border-opacity-40 marker:  md:basis-1/2 lg:basis-1/3">
                 <div className='flex flex-col justify-between  min-h-[300px]' >
                 <div>
