@@ -159,7 +159,7 @@ const logout = () => {
 
                         <div className='flex w-[100%] font-bold '  >
                         {
-                          CART_ITEMS?.length === 0  ?
+                          CART_ITEMS?.length === 0 || !CART_ITEMS ?
                           (
                             <div className='text-2xl mt-5 ml-16  ' >
                               Your Cart Is Empty!
