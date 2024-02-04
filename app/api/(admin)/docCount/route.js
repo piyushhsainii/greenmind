@@ -1,13 +1,15 @@
 import { Order } from "@/Models/OrderModels";
 import productModels from "@/Models/productModels";
 import userModels from "@/Models/userModels";
+import connectingDB from "@/database/database";
  
 export async function GET(){
+    await connectingDB()
     const userCount = await userModels.countDocuments()
     if(!userCount){
         return Response.json({
             success:false,
-            message:"Something went wrong"
+            message:"Something went wrong" 
         },{
             status:400
         })

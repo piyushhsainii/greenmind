@@ -1,6 +1,8 @@
 import { Feedback } from "@/Models/FeedBackModel"
+import connectingDB from "@/database/database"
 
 export async function GET(){
+    await connectingDB()
     const feedback = await Feedback.find()
 
     if(!feedback){

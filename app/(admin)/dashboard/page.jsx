@@ -60,11 +60,9 @@ const Dashboard = () => {
   },[])
 
   return (
-    <Fragment>
-      {Info==='' ?
+      !Info ?
     <Loading />  
       : 
-
         <div className='flex flex-col sm:flex-row ' >
               <div className='sm:hidden' >
                   <Sheet >
@@ -157,8 +155,6 @@ const Dashboard = () => {
             </div>
         </div>
         </div>
-    }
-    </Fragment>
   )
 }
 
