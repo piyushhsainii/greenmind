@@ -13,6 +13,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link
+         rel='greenmind-store'
+        href='/pot1.png'
+        
+        />
+      </head>
       <body className={inter.className}>
         <ThemeProvider
         attribute="class"
