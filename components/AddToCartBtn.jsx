@@ -170,7 +170,7 @@ const addToCartBtn = ({data,productID}) => {
     </div>
      </div>
     </div>
-          <div className=' min-w-[30vw] p-3 pt-12  border-slate-600 border-opacity-50 border mt-12 flex justify-center ' >
+          <div className=' min-w-[300px] p-3 pt-12  border-slate-600 border-opacity-50 border mt-12 flex justify-center ' >
               {
                   data.reviews.length === 0 ?
                       (<div className='flex justify-center items-center mb-4' >
@@ -189,7 +189,6 @@ const addToCartBtn = ({data,productID}) => {
                                 activeColor={'#FED900'}
                                 size={17}
                                 />
-                            {/* <Rating SVGclassName={'inline-block'} size={20} allowFraction={true} initialValue={rev.rating} readonly={true} />\ */}
                             </div>
                         </div>
                         <div className='text-center mb-4'>{rev.comment}
