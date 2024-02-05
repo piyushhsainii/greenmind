@@ -27,7 +27,7 @@ export default function DemoPage() {
 
   // console.log(encodedID)
   const fetchData = async (ID)=>{
-    const { data } = await axios.post(`${url}/api/getOrder`,{
+    const { data } = await axios.post(` /api/getOrder`,{
       ID:ID?.user?._id
     })
     const structuredData = data.userOrders.map((order)=>(

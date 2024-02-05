@@ -12,7 +12,7 @@ const profileDataFirstName = () => {
     const decodedEmail = jwt.decode(user,process.env.SECRET_KEY) 
     const [UserInfo, setUserInfo] = useState('')
   const fetchRequest = async (userID) => {
-    const { data } = await axios.post(`${url}/api/UserDetails`, {
+    const { data } = await axios.post(` /api/UserDetails`, {
       userID
     })
     setUserInfo(data.user)

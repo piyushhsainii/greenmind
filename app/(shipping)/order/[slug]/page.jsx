@@ -117,7 +117,7 @@ const OrderDetails = async({params}) => {
 export default OrderDetails
 
 async function getData(params){
-    const { data } = await axios.post(`${url}/api/getOrderInfo`,{
+    const { data } = await axios.post(` /api/getOrderInfo`,{
         ID:params
     })
     return data

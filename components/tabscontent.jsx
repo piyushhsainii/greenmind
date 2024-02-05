@@ -41,7 +41,7 @@ const jwt = require('jsonwebtoken');
         <Loading />
       } else {
         try {
-          const { data  } = await axios.post(`${url}/api/signin`,
+          const { data  } = await axios.post(`/api/signin`,
             {email:Email,password:Password}
             )
           if(data.success){
@@ -76,7 +76,7 @@ const jwt = require('jsonwebtoken');
     const signupapi = async ()=>{
       setloading(true)
         try {
-          const { data  } = await axios.post(`${url}/api/signup`,
+          const { data  } = await axios.post(` /api/signup`,
             {name:Name,email:Email,password:Password}
           )
           if(data.user.success){

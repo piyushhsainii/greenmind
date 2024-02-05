@@ -40,7 +40,7 @@ const page = () => {
       window.location.href = '/'
     }
     async function getData() {
-      const { data } = await axios.get(`${url}/api/adminallProducts`) 
+      const { data } = await axios.get(` /api/adminallProducts`) 
       setdata(data.products.map(item=>(
         {id:item._id,
         name:item.name,

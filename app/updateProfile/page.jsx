@@ -34,7 +34,7 @@ const Page = () => {
   const navigation = useRouter()
 
   const fetchRequest = async (userID) => {
-    const { data } = await axios.post(`${url}/api/UserDetails`, {
+    const { data } = await axios.post(` /api/UserDetails`, {
       userID
     })
     setUserInfo(data.user)
@@ -58,7 +58,7 @@ const Page = () => {
           if(Name===UserInfo.name &&  Email===UserInfo.email){
             return
           }
-        const { data } = await axios.put(`${url}/api/updateProfile`, {
+        const { data } = await axios.put(` /api/updateProfile`, {
           userID:decodedEmail.user._id , name:Name, email:Email,password:Password
             })
                 if(data.success===true){

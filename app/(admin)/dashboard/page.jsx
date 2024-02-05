@@ -50,7 +50,7 @@ const Dashboard = () => {
     window.location.href = '/'
   }
   async function getDoc(){
-    const { data } = await axios.get(`${url}/api/docCount`)
+    const { data } = await axios.get(` /api/docCount`)
     setdata(data)
     setRevenue(data.RevenueGenerator.reduce((acc,item)=> acc+ item.TotalAmount,0))
   }

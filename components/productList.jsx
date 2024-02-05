@@ -6,8 +6,8 @@ import { url } from '@/lib/url';
 
 async function getData(params,category,price) {
   try {
-     const { data } = await axios.get(`${url}/api/allProducts?page=${params ?? "1"} ${category ? `&category=${category}` : "" } ${price ? `&price=${price}` : ""} `);
-     const { data:data2 } = await axios.get(`${url}/api/adminallProducts`);
+     const { data } = await axios.get(` /api/allProducts?page=${params ?? "1"} ${category ? `&category=${category}` : "" } ${price ? `&price=${price}` : ""} `);
+     const { data:data2 } = await axios.get(` /api/adminallProducts`);
 
      if(data.success==='false'){
       throw new Error('failed to fetch data')

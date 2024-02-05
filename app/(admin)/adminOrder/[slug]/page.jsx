@@ -27,7 +27,7 @@ const OrderDetails = ({params}) => {
       window.location.href = '/'
     }
     async function getData(params){
-        const { data } = await axios.post(`${url}/api/getOrder`,{
+        const { data } = await axios.post(` /api/getOrder`,{
             ID:params
         })
         return data

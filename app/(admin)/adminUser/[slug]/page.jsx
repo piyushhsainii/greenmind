@@ -42,7 +42,7 @@ const AdminDetails = ({params}) => {
     const navigation = useRouter()
 
     const fetchRequest = async (userID) => {
-      const { data:data } = await axios.post(`${url}/api/UserDetails`, {
+      const { data:data } = await axios.post(` /api/UserDetails`, {
         userID
       })
       setUserInfo(data.user)
@@ -50,7 +50,7 @@ const AdminDetails = ({params}) => {
       console.log(Name)
   
       const updateChangeHandler  = async()=>{
-          const { data } = await axios.put(`${url}/api/updateRole`, {
+          const { data } = await axios.put(` /api/updateRole`, {
             userID:params.slug , role:Role
               })
                   if(data.success===true){

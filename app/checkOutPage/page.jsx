@@ -14,7 +14,7 @@ const CheckOutPage = () => {
       try {
         // console.log(totalAmount);
         const {data} = await axios.post(
-          `${url}/api/stripe`
+          ` /api/stripe`
           // ,
           // { "amount":totalAmount }
         );

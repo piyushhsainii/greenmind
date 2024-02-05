@@ -89,7 +89,7 @@ const Page = () => {
         Category!=='',
         Stock!==''
         ){
-          const { data } = await axios.post(`${url}/api/createProduct`,{
+          const { data } = await axios.post(` /api/createProduct`,{
             name:ProductName,
             desc:productDesc,
             price:productPrice,

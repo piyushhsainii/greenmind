@@ -13,7 +13,7 @@ const profileDataFirstName = () => {
     console.log(decodedEmail)
     const [UserInfo, setUserInfo] = useState('')
   const fetchRequest = async (userID) => {
-    const { data } = await axios.post(`${url}/api/UserDetails`, {
+    const { data } = await axios.post(` /api/UserDetails`, {
       userID
     })
     setUserInfo(data.user)

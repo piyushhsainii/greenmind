@@ -92,7 +92,7 @@ const CheckoutForm = () => {
                     phoneno:shippinginfo.phoneNo
                   }
                       const user = jwt.decode(userEmail, process.env.SECRET_KEY)              
-                    const { data } = await axios.post(`${url}/api/createOrder`,{
+                    const { data } = await axios.post(` /api/createOrder`,{
                       OrderItems,
                       shippingDetails:ShippingInfo,
                       user:user.user._id,

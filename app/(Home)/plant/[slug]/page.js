@@ -20,7 +20,7 @@ const RatingComponent = dynamic(()=> import('@/components/ratingComponent'),{
 async function FetchingPlantInfo(props){
     const plantID =  props.params.slug
     try {
-     const { data } = await axios.post(`${url}/api/getProductInfo`,{
+     const { data } = await axios.post(` /api/getProductInfo`,{
         productID:plantID
        }) 
        return data

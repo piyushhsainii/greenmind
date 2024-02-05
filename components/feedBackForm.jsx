@@ -21,7 +21,7 @@ const FeedBackForm = () => {
             variant:"custom"
           })
         } else {
-          const  {  data } = await axios.post(`${url}/api/feedback`,{
+          const  {  data } = await axios.post(` /api/feedback`,{
             name:Name, feedback:Feedback
             })
               if(data && data.success === true){

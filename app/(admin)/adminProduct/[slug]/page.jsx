@@ -82,7 +82,7 @@ const AdminDetails =  ({ params }) => {
         ){
           if(uploadCheck !== ImageArray ){
           console.log("yaha se jari")
-            const { data } = await axios.put(`${url}/api/updateProduct`,{
+            const { data } = await axios.put(` /api/updateProduct`,{
             ID:productID,
             name:ProductName,
             desc:productDesc,
@@ -102,7 +102,7 @@ const AdminDetails =  ({ params }) => {
           }
         } else {            
           console.log("yaha se jari2")
-          const { data } = await axios.put(`${url}/api/updateProduct`,{
+          const { data } = await axios.put(` /api/updateProduct`,{
             ID:productID,
             name:ProductName,
             desc:productDesc,
@@ -129,7 +129,7 @@ const AdminDetails =  ({ params }) => {
         }
     }
     const fetchProductDetails = async(productID)=>{
-      const { data } = await axios.post(`${url}/api/getProductInfo`,{
+      const { data } = await axios.post(` /api/getProductInfo`,{
         productID
       })
       console.log(data)

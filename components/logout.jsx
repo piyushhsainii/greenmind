@@ -55,7 +55,7 @@ const logout = () => {
 
   const SignOutHandler = async()=>{
        try {
-        const { data } = await axios.delete(`${url}/api/logout`) 
+        const { data } = await axios.delete(` /api/logout`) 
         if(data.success){
           setuserLogin(false)
           toast({

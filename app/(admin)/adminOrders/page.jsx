@@ -59,7 +59,7 @@ export default function DemoPage() {
 
   // console.log(encodedID)
   const fetchData = async (ID)=>{
-    const { data } = await axios.get(`${url}/api/getAllOrders`)
+    const { data } = await axios.get(` /api/getAllOrders`)
     const structuredData = data.data.map((order)=>(
       {
         id:order._id,
