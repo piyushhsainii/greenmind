@@ -16,7 +16,6 @@ import { Slider } from "@/components/ui/slider"
 
 const filter = ({props,category}) => {
   let valueToken 
-  console.log(valueToken)
   const navigate = useRouter( )
   const indoor = (props)=>{
     props? navigate.push(`?page=${props}&category=indoor`) : navigate.push(`?category=indoor&price=${valueToken} : "" }  `)

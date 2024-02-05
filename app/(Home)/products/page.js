@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import Filter from '../../../components/filter'
+import dynamic from 'next/dynamic'
+const Filter = dynamic(()=>import('../../../components/filter'))
 import ProductList from '@/components/productList'
 
 
@@ -13,7 +14,7 @@ import ProductList from '@/components/productList'
           >
           <Filter props={props.searchParams.page} category={props.searchParams.category} />
        </div>
-        <div
+        <div 
         className='w-[80%] m-auto '          
         >
         <ProductList params={props.searchParams.page} category={props.searchParams.category} price={props.searchParams.price} />      
