@@ -1,7 +1,7 @@
 import productModels from "@/Models/productModels"
 import connectingDB from "@/database/database"
 
-export  async function GET(request){
+export  async function GET(request){ 
     await connectingDB()
     const defaultPage = request.nextUrl.searchParams.get('page')
     const category = request.nextUrl.searchParams.get('category')

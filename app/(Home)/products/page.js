@@ -5,6 +5,7 @@ import ProductList from '@/components/productList'
 
 
  const app = async(props ) => {
+  console.log(props.searchParams, "mei hu")
   return (
     <Fragment>
        <div className='w-[95vw] flex flex-col md:flex-row ml-2 '  >
@@ -17,7 +18,7 @@ import ProductList from '@/components/productList'
         <div 
         className='w-[80%] m-auto '          
         >
-        <ProductList params={props.searchParams.page} category={props.searchParams.category} price={props.searchParams.price} />      
+        <ProductList params={props.searchParams.page} Category={props.searchParams.category} Price={props.searchParams.price} />      
          </div>
       </div>
     </Fragment>

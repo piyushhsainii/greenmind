@@ -15,11 +15,13 @@ import axios from 'axios'
 import { url } from '@/lib/url'
 import { Item } from '@radix-ui/react-radio-group'
 import Link from 'next/link'
+import connectingDB from '@/database/database'
+import { Order } from '@/Models/OrderModels'
 
 
-const OrderDetails = async({params}) => {
-    const data = await getData(params.slug)
-    console.log(data)
+const OrderDetails = async({params}) => { 
+    const userOrders = await getData(params.slug)
+    console.log(userOrders.createdAt.toString())
   return (
     <div className='flex flex-col sm:flex-row gap-2' >
             <div className='m-4 w-[20%] ' >
@@ -46,7 +48,7 @@ const OrderDetails = async({params}) => {
                         
                         <CardContent>
                        {
-                        data.userOrders.OrderItems.map((prod)=>(
+                        userOrders?.OrderItems.map((prod)=>(
                     <Fragment  >
                     <div className='flex flex-col lg:flex-row justify-evenly m-2 min-w-[150px] sm:min-w-[400px] lg:min-w-[681px] border-slate-600 border-[0.5px] w-[100%] rounded-md '>
                         <div className=' p-2 m-2 inline-block' >             
@@ -63,7 +65,7 @@ const OrderDetails = async({params}) => {
                             </Fragment>
                             
                             <div>
-                                Total Amount : {data.userOrders.TotalAmount}
+                                Total Amount : {userOrders?.TotalAmount}
                             </div>
                         </div>
                         <Separator className="my-4" />     
@@ -80,21 +82,16 @@ const OrderDetails = async({params}) => {
 
                                 <div className="grid w-full items-center gap-4">
                                     <div className="flex flex-col space-y-1.5">
-
-                                {
-                                    data.userOrders.shippingDetails.map((info)=>(
-                                        <div key={info._id} >
-                                            <Label key={info._id} htmlFor="name"> <b>Address :</b> { info.address }</Label> <br></br>
-                                            <Label key={info._id} htmlFor="name"><b> City:</b>{ info.city }</Label> <br></br>
-                                            <Label key={info._id} htmlFor="name"> <b>Pincode : </b> { info.pincode }</Label> <br></br>
-                                            <Label key={info._id} htmlFor="name"><b> Phone Number :</b> { info.phoneno }</Label>
+                                        <div >
+                                            <Label htmlFor="name"> <b>Address :</b> { userOrders?.shippingDetails.address }</Label> <br></br>
+                                            <Label htmlFor="name"><b> City:</b>{ userOrders?.shippingDetails.city }</Label> <br></br>
+                                            <Label htmlFor="name"> <b>Pincode : </b> { userOrders?.shippingDetails.pincode }</Label> <br></br>
+                                            <Label htmlFor="name"><b> Phone Number :</b> { userOrders?.shippingDetails.phoneno }</Label>
                                             <br></br>
                                             <br></br>
 
                                         </div>
-                                    ))
-                                }
-                                <Label  htmlFor="name"><b> Order Date :</b> {data.userOrders.createdAt.slice(0, 10) }</Label>
+                                <Label  htmlFor="name"><b> Order Date :</b> {userOrders.createdAt.toLocaleString()}</Label>
                                     </div>
                                         </div>
                                         </form>
@@ -117,8 +114,8 @@ const OrderDetails = async({params}) => {
 export default OrderDetails
 
 async function getData(params){
-    const { data } = await axios.post(` /api/getOrderInfo`,{
-        ID:params
-    })
-    return data
+    await connectingDB() 
+    const userOrders = await Order.findById(params);
+
+    return userOrders
 }

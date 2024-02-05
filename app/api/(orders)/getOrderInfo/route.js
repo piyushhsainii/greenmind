@@ -3,9 +3,9 @@ import productModels from "@/Models/productModels";
 import connectingDB from "@/database/database";
 
 export async function POST(req) {
-    await connectingDB()
+    await connectingDB() 
   try { 
-    const { ID } = await req.json();
+    const { ID } = await req.json(); 
 
     if (!ID) {
       return Response.json(

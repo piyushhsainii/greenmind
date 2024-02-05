@@ -1,6 +1,4 @@
-import axios from 'axios'
 import React, { Fragment, Suspense } from 'react'
-import { url } from '@/lib/url'
 import dynamic from 'next/dynamic'
 import {
   Carousel,
@@ -9,6 +7,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import productModels from '@/Models/productModels'
+import connectingDB from '@/database/database'
 
 const AddToCartBtn = dynamic(()=>import("@/components/AddToCartBtn"),{
   ssr:false
@@ -16,17 +16,19 @@ const AddToCartBtn = dynamic(()=>import("@/components/AddToCartBtn"),{
 const RatingComponent = dynamic(()=> import('@/components/ratingComponent'),{
   ssr:false
 })
-
+ 
 async function FetchingPlantInfo(props){
+    await connectingDB()
     const plantID =  props.params.slug
+    console.log(plantID)
+        console.log(props)
+     console.log(props.params)
+    console.log(props.params.slug)
     try {
-     const { data } = await axios.post(` /api/getProductInfo`,{
-        productID:plantID
-       }) 
-       return data
+      const product = await productModels.findById(plantID).lean()
+      return product
     } catch (error) {
-      console.error('Error fetching plant details:', error);
-      throw new Error('Could not fetch plant details. Please try again later.');
+      return console.error('Error fetching plant details:', error);
     }
  }
 
@@ -34,12 +36,12 @@ const page = async(props) => {
     const data = await FetchingPlantInfo(props)
   return (
     <Fragment>
-      <div className='flex flex-row w-screen m-auto justify-center gap-12 flex-wrap' >
+      <div className='flex flex-row w-screen m-auto justify-center gap-7 ' >
           <div className='h-[500px] min-w-[300px]'  >
             <Carousel className='h-[430px] min-w-[340px] m-auto  border-4 ' >
               <CarouselContent>
               {
-              data.product.Img.map((product)=>(
+              data?.Img.map((product)=>(
                 <CarouselItem  key={product._id} >
                     <img className='lg:h-[430px] lg:w-[400px] m-auto' src={product.url} ></img>           
                 </CarouselItem>
@@ -52,15 +54,15 @@ const page = async(props) => {
           </div>
           <div className='min-w-[300px] border border-black m-4 mb-8' >
             <div className='lg:m-12  min-w-[400px] flex flex-col gap-3 mt-20 m-auto justify-center  ' >
-              <div className='text-2xl' > {data.product.name}  </div>
-              <div className=' text-muted-foreground'>{data.product.desc}   
+              <div className='text-2xl' > {data?.name}  </div>
+              <div className=' text-muted-foreground'>{data?.desc}   
                 </div>
                 <div >
-                <RatingComponent rating={data.product.rating} />
+                <RatingComponent rating={data?.rating} />
                   </div>
-              <div  className='text-xl' > ₹{data.product.price}</div>
+              <div  className='text-xl' > ₹{data?.price}</div>
               <div>
-              <AddToCartBtn data={data.product} productID={props.params.slug} />
+              <AddToCartBtn data={data} productID={props.params.slug} />
               </div>
             </div>
           </div>

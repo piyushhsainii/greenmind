@@ -3,7 +3,7 @@ import { Minus, Plus } from 'lucide-react'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { CartItem } from './atoms/userAuth'
-import { toast } from './ui/use-toast'
+import { toast, useToast } from './ui/use-toast'
 import {
     Dialog,
     DialogContent,
@@ -26,6 +26,7 @@ import ReactStars from 'react-rating-star-with-type'
 import jwt from 'jsonwebtoken'  
 
 const addToCartBtn = ({data,productID}) => {
+    const  {toast}= useToast()
     const navigate = useRouter()
     const [counter, setcounter] = useState(1)
     const [ cartInfo , setCartInfo ] = useRecoilState(CartItem)
@@ -63,6 +64,8 @@ const addToCartBtn = ({data,productID}) => {
             setCartInfo(cartCheck)
         }   
     }
+
+    
     const [name, setname] = useState('user')
     const [comment ,setComment] = useState('')
     const [rating, setratings] = useState(0)
@@ -76,6 +79,12 @@ const addToCartBtn = ({data,productID}) => {
         setratings(rate)
       }
     const reviewHandler= async()=>{
+        if(name===null){
+            return toast({
+                description:"Please log in to add reviews",
+                variant:"custom"
+            })
+        }
         if(comment.length>256){
             return toast({
                 description:"Word Limit exceeded, please write review in less than 256 characters",
@@ -99,13 +108,19 @@ const addToCartBtn = ({data,productID}) => {
         })
        )
     }
-    console.log(data.reviews)
+    
         useEffect(()=>{
-        const encryptedData = localStorage.getItem('userProfileStatus')
+        const encryptedData = localStorage.getItem('userProfileStatus') 
+        if(encryptedData===null || encryptedData===undefined){
+            return setname(null)
+        }
         const decoded =  jwt.decode(encryptedData,process.env.SECRET_KEY)
         const userID = decoded.user.name
         setname(userID)
-        },[cartItemHandler,reviewHandler])
+        },[cartItemHandler,reviewHandler,name])
+
+
+
   return (
     <Fragment>
     <div className='flex flex-col gap-12 ' style={{userSelect:"none"}}   >

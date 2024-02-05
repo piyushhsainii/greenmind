@@ -17,7 +17,7 @@ async function fetchRandomPlants (){
       {$sample:{size:5}}
   ])
   return product
-}
+} 
 
 
 const Section2 = async() => {

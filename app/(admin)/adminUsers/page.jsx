@@ -36,7 +36,7 @@ const page = () => {
     window.location.href = '/'
   }
       async function getData() {
-        const { data } = await axios.get(` /api/getAllUsers`) 
+        const { data } = await axios.get(`/api/getAllUsers`) 
         setdata(data.user.map(item=>(
           {id:item._id,
           name:item.name,

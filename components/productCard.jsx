@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ReactStars from 'react-rating-star-with-type'
 
-const ProductCard = ({_id,img,name,price,plant}) => {
+const ProductCard = ({img,name,price,plant}) => {
     const navigate = useRouter()
     const [rating, setRating] = useState(plant.rating)
+    console.log(plant._id)
     const onClickHandler = ()=>{
       navigate.push(`/plant/${plant._id}`)
   }
