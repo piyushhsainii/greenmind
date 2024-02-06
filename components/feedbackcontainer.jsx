@@ -18,7 +18,7 @@ const FeedBackContainer = async() => {
      <div className='w-[90vw] h-[300px] m-auto text-black mb-20' >
         <div className='w-[90vw] m-auto  h-[500px] ' > 
         {
-        data && 
+        feedback && 
           <FeedbackCarousel data={feedback}/>
         }
         </div>
