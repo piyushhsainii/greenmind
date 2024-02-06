@@ -29,7 +29,7 @@ async function FetchingPlantInfo(props){
  }
 
 const page = async(props) => {
-    const data = await FetchingPlantInfo(props)
+    const product = await FetchingPlantInfo(props)
   return (
     <Fragment>
       <div className='flex flex-row w-screen m-auto  justify-center gap-16 flex-wrap  ' >
@@ -37,7 +37,7 @@ const page = async(props) => {
             <Carousel className='h-[500px] w-[350px]   px-2 lg:w-[400px] min-w-[300px] min-h-[280px]  m-auto ' >
               <CarouselContent>
               {
-              data?.Img.map((product)=>(
+              product?.Img.map((product)=>(
                 <CarouselItem  key={product._id} >
                     <img className='lg:h-[370px] lg:w-[370px] min-h-[220px] min-w-[260px] max-h-[400px] max-w-[400px] m-auto' src={product.url} ></img>           
                 </CarouselItem>
@@ -50,15 +50,15 @@ const page = async(props) => {
           </div>
           <div className='min-w-[300px] max-w-[500px] border border-black m-3 p-2 mb-8' >
             <div className='lg:m-12  min-w-[300px] flex flex-col gap-3 mt-20 m-auto justify-center  ' >
-              <div className='lg:text-2xl md:text-xl text-lg ' > {data?.name}  </div>
-              <div className=' text-muted-foreground'>{data?.desc}   
+              <div className='lg:text-2xl md:text-xl text-lg ' > {product?.name}  </div>
+              <div className=' text-muted-foreground'>{product?.desc}   
                 </div>
                 <div >
-                <RatingComponent rating={data?.rating} />
+                <RatingComponent rating={product?.rating} />
                   </div>
-              <div  className='text-xl' > ₹{data?.price}</div>
+              <div  className='text-xl' > ₹{product?.price}</div>
               <div>
-              <AddToCartBtn data={data} productID={props.params.slug} />
+              <AddToCartBtn data={product} productID={props.params.slug} />
               </div>
             </div>
           </div>
