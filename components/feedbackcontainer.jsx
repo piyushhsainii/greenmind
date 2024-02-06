@@ -7,7 +7,9 @@ import { Feedback } from '@/Models/FeedBackModel'
 import connectingDB from '@/database/database'
 
 const FeedBackContainer = async() => {
-  const data = await getData() 
+  const feedback = await getData() 
+  console.log(feedback)
+
   return (
     <div className=''>
       <div className='text-xl font-bold m-9' >
@@ -17,7 +19,7 @@ const FeedBackContainer = async() => {
         <div className='w-[90vw] m-auto  h-[500px] ' > 
         {
         data && 
-          <FeedbackCarousel data={data}/>
+          <FeedbackCarousel data={feedback}/>
         }
         </div>
       </div>
@@ -30,5 +32,6 @@ export default FeedBackContainer
 async  function getData(){
   await connectingDB()
   const feedback = await Feedback.find()
+  console.log(feedback)
   return feedback
 }
