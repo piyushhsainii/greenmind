@@ -76,7 +76,7 @@ const jwt = require('jsonwebtoken');
     const signupapi = async ()=>{
       setloading(true)
         try {
-          const { data  } = await axios.post(` /api/signup`,
+          const { data  } = await axios.post(` /api/signup`, 
             {name:Name,email:Email,password:Password}
           )
           if(data.user.success){
@@ -88,7 +88,7 @@ const jwt = require('jsonwebtoken');
             navigate.push('/')
           }       
           if(data.success){
-            const encryptedEmail  = jwt.sign({user: data.userExist},process.env.SECRET_KEY)
+            const encryptedEmail  = jwt.sign({user: data.user},process.env.SECRET_KEY)
             localStorage.setItem('userProfileStatus',encryptedEmail)
             const userEmailset = localStorage.getItem('userProfileStatus')
             setUserEmail(userEmailset)
