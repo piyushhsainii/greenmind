@@ -34,7 +34,7 @@ const page = async(props) => {
     <Fragment>
       <div className='flex flex-row w-screen m-auto  justify-center gap-16 flex-wrap  ' >
           <div className='h-[530px] lg:w-[420px] min-w-[300px] min-h-[290px] p-3 border border-black  '  >
-            <Carousel className='h-[500px] w-[350px] border border-red-400 px-2 lg:w-[400px] min-w-[300px] min-h-[280px]  m-auto ' >
+            <Carousel className='h-[500px] w-[350px]   px-2 lg:w-[400px] min-w-[300px] min-h-[280px]  m-auto ' >
               <CarouselContent>
               {
               data?.Img.map((product)=>(
