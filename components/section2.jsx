@@ -10,7 +10,8 @@ import { MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import connectingDB from '@/database/database'
 import productModels from '@/Models/productModels'
-  
+import { unstable_noStore as noStore } from 'next/cache'
+
 async function fetchRandomPlants (){
   await connectingDB()
   const product = await productModels.aggregate([
@@ -22,6 +23,7 @@ async function fetchRandomPlants (){
 
 const Section2 = async() => {
   const  data  = await fetchRandomPlants()
+  noStore()
   return (
     <Fragment>
         <div className='w-[85vw]  m-auto mb-5 flex-col  md:flex md:flex-row  '  >
