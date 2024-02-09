@@ -27,10 +27,8 @@ export async function POST(req){
                     desc,
                     price,
                     Img:ImagesArray,
-                    numofReviews,
                     category,
                     stock,
-                    reviews,
                     user
                 })
                 return Response.json({
@@ -42,6 +40,7 @@ export async function POST(req){
                 })        
             }
         } catch (error) {
+            console.log(error)
             return Response.json({
                 success:false,
                 message:"Something went wrong",error

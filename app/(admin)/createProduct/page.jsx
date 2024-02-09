@@ -107,7 +107,7 @@ const Page = () => {
             })
             // navigate.push('/adminProducts')
           }
-          
+          setLoading(false)
         } else {
           setLoading(false)
           toast({
