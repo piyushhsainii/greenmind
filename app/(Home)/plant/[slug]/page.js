@@ -33,7 +33,7 @@ const page = async(props) => {
   return (
     <Fragment>
       <div className='flex flex-row w-screen m-auto  justify-center gap-16 flex-wrap  ' >
-          <div className='h-[530px] lg:w-[420px] min-w-[300px] min-h-[290px] p-3 border border-black  '  >
+          <div className='h-[530px] lg:w-[420px] min-w-[300px] min-h-[290px] p-3 border border-opacity-30 border-black  '  >
             <Carousel className='h-[500px] w-[350px]   px-2 lg:w-[400px] min-w-[300px] min-h-[280px]  m-auto ' >
               <CarouselContent>
               {
@@ -48,7 +48,7 @@ const page = async(props) => {
                         <CarouselNext />
                 </Carousel>       
           </div>
-          <div className='min-w-[300px] max-w-[500px] border border-black m-3 p-2 mb-8' >
+          <div className='min-w-[300px] max-w-[500px] border border-opacity-30 border-black m-3 p-2 mb-8' >
             <div className='lg:m-12  min-w-[300px] flex flex-col gap-3 mt-20 m-auto justify-center  ' >
               <div className='lg:text-2xl md:text-xl text-lg ' > {product?.name}  </div>
               <div className=' text-muted-foreground'>{product?.desc}   
