@@ -11,7 +11,7 @@ const ProductCard = ({img,name,price,plant}) => {
       navigate.push(`/plant/${plant._id}`)
   }
   return (
-    <div className=' border rounded-sm border-slate-600 w-[330px] m-2  p-2 cursor-pointer ' onClick={onClickHandler} >
+    <div className=' border border-slate-600 border-opacity-40 rounded-md w-[330px] m-2  p-2 cursor-pointer ' onClick={onClickHandler} >
         <div>
         <img className='lg:w-[279px] h-[330px] m-auto '
         src={img}

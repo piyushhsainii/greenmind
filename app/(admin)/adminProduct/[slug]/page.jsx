@@ -198,7 +198,7 @@ const AdminDetails =  ({ params }) => {
                           <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="name">Product Images</Label>
                             <Input required type="file" multiple accept="image/" onChange={handleUpload} placeholder={'Enter Product Description'} ></Input>
-                            <div className='flex' >{ImageArray.length > 0 ? ImageArray.map((image) => <div className='flex' ><img className='h-[40px] w-[40px]' src={image} alt="" /></div>) : <div className='text-muted-foreground text-sm' >Images Preview will be shown here</div>} </div>
+                            <div className='flex' >{ImageArray.length > 0 ? ImageArray.map((image) => <div className='flex' key={image} ><img className='h-[40px] w-[40px]' src={image} alt="" /></div>) : <div className='text-muted-foreground text-sm' >Images Preview will be shown here</div>} </div>
                           </div>
                           {/* dropdown */}
                           <div className="flex flex-col space-y-1.5">

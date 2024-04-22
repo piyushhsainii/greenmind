@@ -60,7 +60,7 @@ const Section2 = async() => {
                     <CarouselContent  >
                         {                        
                         data?.map((item)=>(
-                        <Link  className='basis-2/3 w-[350px]' key={item._id} href={`/plant/${item._id}`}>
+                        <Link  className='basis-2/3 w-[350px] mx-4' key={item._id} href={`/plant/${item._id}`}>
                           <CarouselItem className=' ' >
                             <img src={item.Img[0].url} className='min-w-[350px]  h-[357px]  ' alt="" />
                             <div className=' font-bold p-4 pb-2 ' >{item.name}</div>

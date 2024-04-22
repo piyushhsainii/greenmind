@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 const Section3 = () => {
   return (
     <Fragment>
-        <div className='  py-4 border-2 flex flex-col '>
+        <div className='  py-4  flex flex-col '>
             <div>
                 <div className='text-2xl font-bold text-center m-3 ' > <h3>About us</h3> </div>
                 <div className='text-slate-600 text-md text-center m-3 ' > Order now and appreciate the beauty of nature </div>
